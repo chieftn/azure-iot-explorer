@@ -9,6 +9,7 @@ import DirectMethod, { DirectMethodProps } from './directMethod';
 import { FunctionProperties } from '../../../../shared/types/types';
 import { InvokeMethodParameters } from '../../../../api/parameters/deviceParameters';
 import { invokeDirectMethodAction } from '../../actions';
+import { getActiveAzureResourceConnectionStringSelector } from '../../../../azureResource/selectors';
 
 const mapDispatchToProps = (dispatch: Dispatch): FunctionProperties<DirectMethodProps> => {
     return {

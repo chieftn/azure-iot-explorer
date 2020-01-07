@@ -10,6 +10,7 @@ import { listDevicesAction, deleteDevicesAction } from '../actions';
 import { getDeviceSummaryListStatus, deviceQuerySelector, deviceSummaryListWrapperNoPNPSelector } from '../selectors';
 import DeviceQuery from '../../../api/models/deviceQuery';
 import { SynchronizationStatus } from '../../../api/models/synchronizationStatus';
+import { getActiveAzureResourceConnectionStringSelector } from '../../../azureResource/selectors';
 
 const mapStateToProps = (state: StateType): DeviceListDataProps => {
     const deviceListSyncStatus = getDeviceSummaryListStatus(state);

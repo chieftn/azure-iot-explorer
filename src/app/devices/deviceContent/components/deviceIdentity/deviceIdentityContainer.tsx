@@ -10,6 +10,7 @@ import DeviceIdentityInformation, { DeviceIdentityDataProps, DeviceIdentityDispa
 import { getDeviceIdentityWrapperSelector } from '../../selectors';
 import { DeviceIdentity } from '../../../../api/models/deviceIdentity';
 import { updateDeviceIdentityAction } from '../../actions';
+import { getActiveAzureResourceConnectionStringSelector } from '../../../../azureResource/selectors';
 
 const mapStateToProps = (state: StateType): DeviceIdentityDataProps => {
     return {
