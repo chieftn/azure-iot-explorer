@@ -13,7 +13,7 @@ import { updateDeviceIdentityAction } from '../../actions';
 
 const mapStateToProps = (state: StateType): DeviceIdentityDataProps => {
     return {
-        connectionString: state.azureResourceState.activeAzureResource ? state.azureResourceState.activeAzureResource.connectionString : '',
+        activeAzureResourceHostName: state.azureResourceState.activeAzureResource ? state.azureResourceState.activeAzureResource.hostName : '',
         identityWrapper: getDeviceIdentityWrapperSelector(state)
     };
 };

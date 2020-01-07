@@ -15,7 +15,6 @@ const mapStateToProps = (state: StateType): DeviceListDataProps => {
     const deviceListSyncStatus = getDeviceSummaryListStatus(state);
     const isFetching = deviceListSyncStatus && deviceListSyncStatus === SynchronizationStatus.working ||  deviceListSyncStatus === SynchronizationStatus.updating;
     return {
-        connectionString: state.azureResourceState.activeAzureResource ? state.azureResourceState.activeAzureResource.connectionString : '',
         devices: deviceSummaryListWrapperNoPNPSelector(state),
         isFetching,
         query: deviceQuerySelector(state)
