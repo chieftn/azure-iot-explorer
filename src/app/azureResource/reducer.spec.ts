@@ -7,11 +7,16 @@ import { setActiveAzureResourceAction } from './actions';
 import { AzureResource } from './models/azureResource';;
 import reducer from './reducer';
 import { AccessVerificationState } from './models/accessVerificationState';
+import { SynchronizationStatus } from '../api/models/synchronizationStatus';
 
 describe('setActiveAzureResourceAction', () => {
     it('sets entire azure resource', () => {
         const initialState: AzureResourceStateInterface = {
-            activeAzureResource: undefined
+            activeAzureResource: undefined,
+            azureResources: {
+                payload: [],
+                synchronizationStatus: SynchronizationStatus.initialized
+            }
         };
 
         const resource: AzureResource = {

@@ -3,7 +3,12 @@
  * Licensed under the MIT License
  **********************************************************/
 import { takeLatest } from 'redux-saga/effects';
-import { setActiveAzureResourceByConnectionStringAction, setActiveAzureResourceByHostNameAction, setActiveAzureResourceAction, getAzureResourcesAction } from './actions';
+import {
+    setActiveAzureResourceByConnectionStringAction,
+    setActiveAzureResourceByHostNameAction,
+    setActiveAzureResourceAction,
+    getAzureResourcesAction,
+} from './actions';
 import { getAzureResourcesSaga } from './sagas/getAzureResourcesSaga';
 import { setActiveAzureResourceByConnectionStringSaga } from './sagas/setActiveAzureResourceByConnectionStringSaga';
 import { setActiveAzureResourceByHostNameSaga } from './sagas/setActiveAzureResourceByHostNameSaga';

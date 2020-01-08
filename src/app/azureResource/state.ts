@@ -14,7 +14,7 @@ export interface AzureResourceStateInterface {
 export const azureResourceStateInitial = (): AzureResourceStateInterface => {
     return {
         azureResources: {
-            item: [],
+            payload: [],
             synchronizationStatus: SynchronizationStatus.initialized
         }
     };

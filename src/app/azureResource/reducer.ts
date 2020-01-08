@@ -4,7 +4,7 @@
  **********************************************************/
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { azureResourceStateInitial, AzureResourceStateInterface } from './state';
-import { getAzureResourcesAction, setActiveAzureResourceAction } from './actions';
+import { getAzureResourcesAction, setActiveAzureResourceAction, addAzureResourceAction, removeAzureResourceAction } from './actions';
 import { AzureResource } from './models/azureResource';
 import { SynchronizationStatus } from '../api/models/synchronizationStatus';
 import { LocalizableString } from '../api/models/localizableString';
@@ -19,17 +19,17 @@ const reducer = reducerWithInitialState<AzureResourceStateInterface>(azureResour
     .case(getAzureResourcesAction.started, (state: AzureResourceStateInterface) => {
         const updatedState = {...state};
         updatedState.azureResources = {
-            item: [],
+            payload: [],
             synchronizationStatus: SynchronizationStatus.working
         };
 
         return updatedState;
     })
 
-    .case(getAzureResourcesAction.done, (state: AzureResourceStateInterface, payload: { result: AzureResource[]}) => {
+    .case(getAzureResourcesAction.done, (state: AzureResourceStateInterface, payload: {result: AzureResource[]}) => {
         const updatedState = {...state};
         updatedState.azureResources = {
-            item: payload.result,
+            payload: payload.result,
             synchronizationStatus: SynchronizationStatus.fetched
         };
 
@@ -40,7 +40,7 @@ const reducer = reducerWithInitialState<AzureResourceStateInterface>(azureResour
         const updatedState = {...state};
         updatedState.azureResources = {
             error: payload.error,
-            item: [],
+            payload: [],
             synchronizationStatus: SynchronizationStatus.failed
         };
 

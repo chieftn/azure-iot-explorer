@@ -3,6 +3,6 @@ import { LocalizableString } from './localizableString';
 
 export interface SynchronizationWrapper<T> {
     error?: LocalizableString;
-    item?: T;
+    payload?: T;
     synchronizationStatus: SynchronizationStatus;
 }
