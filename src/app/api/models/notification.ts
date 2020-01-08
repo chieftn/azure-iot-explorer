@@ -2,6 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License
  **********************************************************/
+import { LocalizableString } from './localizableString';
+
 export enum NotificationType {
     info,
     warning,
@@ -12,13 +14,7 @@ export enum NotificationType {
 export interface Notification {
     id?: number;
     issued?: string;
-    title?: {
-        translationKey: string;
-        translationOptions?: {}
-    };
-    text: {
-        translationKey: string;
-        translationOptions?: {};
-    };
+    title?: LocalizableString;
+    text: LocalizableString;
     type: NotificationType;
 }

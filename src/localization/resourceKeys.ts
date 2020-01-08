@@ -7,6 +7,9 @@ export class ResourceKeys {
          unauthorized : "azureResource.access.unauthorized",
          verifying : "azureResource.access.verifying",
       },
+      errors : {
+         unableToGetAzureResources : "azureResource.errors.unableToGetAzureResources",
+      },
    };
    public static breadcrumb = {
       addDevice : "breadcrumb.addDevice",

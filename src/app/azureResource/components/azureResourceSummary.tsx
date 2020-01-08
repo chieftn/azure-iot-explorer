@@ -6,6 +6,7 @@ export interface AzureResourceSummary {
 }
 
 export const AzureResourceSummary: React.FC<AzureResourceSummary> = props => {
-
-
+    return (
+        <div>hello world</div>
+    );
 };

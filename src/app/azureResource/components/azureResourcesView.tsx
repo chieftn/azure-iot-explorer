@@ -34,8 +34,6 @@ export const AzureResourcesView: React.FC<AzureResourcesViewProps> = props => {
     }, []); // tslint:disable-line:align
 
     // React.useEffect(() => {
-
-
     // }, [props.azureResources]); // tslint:disable-line:align
 
     return (

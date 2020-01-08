@@ -1,7 +1,8 @@
 import { SynchronizationStatus } from './synchronizationStatus';
+import { LocalizableString } from './localizableString';
 
 export interface SynchronizationWrapper<T> {
-    error?: { key: string, interpolation?: object};
+    error?: LocalizableString;
     item?: T;
     synchronizationStatus: SynchronizationStatus;
 }
