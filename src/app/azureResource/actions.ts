@@ -8,6 +8,7 @@ import { AzureResource } from './models/azureResource';
 import { LocalizableString } from '../api/models/localizableString';
 
 export const AZURE_RESOURCES = 'AZURE_RESOURCES';
+export const ACTIVE = '_ACTIVE';
 export const BY_CONNECTION = '_CONNECTION';
 export const BY_HOSTNAME = '_HOST';
 
@@ -23,6 +24,6 @@ export interface SetActiveAzureResourceByHostNameActionParameters {
 }
 
 export const getAzureResourcesAction = actionCreator.async<void, AzureResource[], LocalizableString>(GET);
-export const setActiveAzureResourceByConnectionStringAction = actionCreator<SetActiveAzureResourceByConnectionStringActionParameters>(`${SET}${BY_CONNECTION}`);
-export const setActiveAzureResourceByHostNameAction = actionCreator<SetActiveAzureResourceByHostNameActionParameters>(`${SET}${BY_HOSTNAME}`);
-export const setActiveAzureResourceAction = actionCreator<AzureResource>(SET);
+export const setActiveAzureResourceByConnectionStringAction = actionCreator<SetActiveAzureResourceByConnectionStringActionParameters>(`${SET}${ACTIVE}${BY_CONNECTION}`);
+export const setActiveAzureResourceByHostNameAction = actionCreator<SetActiveAzureResourceByHostNameActionParameters>(`${SET}${ACTIVE}${BY_HOSTNAME}`);
+export const setActiveAzureResourceAction = actionCreator<AzureResource>(`${SET}${ACTIVE}`);

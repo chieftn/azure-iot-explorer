@@ -5,28 +5,26 @@
 import * as React from 'react';
 import { AzureResource } from '../models/azureResource';
 import { SynchronizationWrapper } from '../../api/models/synchronizationWrapper';
-import { AzureResourceSummary } from './azureResourceSummary';
+import { AzureResourceListViewEntry } from './azureResourceListViewEntry';
 
 export enum AzureResourcesViewMode {
     Initializing,
     Ready
 }
 
-export interface AzureResourcesViewDataProps {
+export interface AzureResourceListViewDataProps {
     azureResources: SynchronizationWrapper<AzureResource[]>;
 }
 
-export interface AzureResourcesViewActionProps {
-    addAzureResource(azureResource: AzureResource): void;
+export interface AzureResourceListViewActionProps {
     getAzureResources(): void;
     navigateToAzureResource(azureResource: AzureResource): void;
-    removeAzureResource(azureResource: AzureResource): void;
     setActiveAzureResource(azureResource: AzureResource): void;
 }
 
-export type AzureResourcesViewProps = AzureResourcesViewDataProps & AzureResourcesViewActionProps;
+export type AzureResourceListViewProps = AzureResourceListViewDataProps & AzureResourceListViewActionProps;
 
-export const AzureResourcesView: React.FC<AzureResourcesViewProps> = props => {
+export const AzureResourceListView: React.FC<AzureResourceListViewProps> = props => {
     const [ viewMode, setViewMode ] = React.useState<AzureResourcesViewMode>(AzureResourcesViewMode.Initializing);
 
     React.useEffect(() => {

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { AzureResource } from '../models/azureResource';
 
-export interface AzureResourceSummary {
+export interface AzureResourceListViewEntryProps {
     azureResource: AzureResource;
 }
 
-export const AzureResourceSummary: React.FC<AzureResourceSummary> = props => {
+export const AzureResourceListViewEntry: React.FC<AzureResourceListViewEntryProps> = props => {
     return (
         <div>hello world</div>
     );

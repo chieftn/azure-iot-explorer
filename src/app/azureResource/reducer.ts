@@ -4,7 +4,7 @@
  **********************************************************/
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { azureResourceStateInitial, AzureResourceStateInterface } from './state';
-import { getAzureResourcesAction, setActiveAzureResourceAction, addAzureResourceAction, removeAzureResourceAction } from './actions';
+import { getAzureResourcesAction, setActiveAzureResourceAction } from './actions';
 import { AzureResource } from './models/azureResource';
 import { SynchronizationStatus } from '../api/models/synchronizationStatus';
 import { LocalizableString } from '../api/models/localizableString';
