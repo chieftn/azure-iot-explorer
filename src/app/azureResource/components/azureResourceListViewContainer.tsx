@@ -9,8 +9,8 @@ import { AzureResourceListView, AzureResourceListViewProps } from './azureResour
 import { AzureResource } from '../models/azureResource';
 import { StateInterface } from '../../shared/redux/state';
 
-export type AzureResourcesViewContainerProps = RouteComponentProps;
-export const AzureResourceViewContainer: React.FC<AzureResourcesViewContainerProps> = props => {
+export type AzureResourceViewContainerProps = RouteComponentProps;
+export const AzureResourceViewContainer: React.FC<AzureResourceViewContainerProps> = props => {
     const azureResources = useSelector((state: StateInterface) => state.azureResourceState.azureResources);
     const dispatch = useDispatch();
 

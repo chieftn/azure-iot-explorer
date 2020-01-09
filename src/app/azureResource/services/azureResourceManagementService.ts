@@ -17,7 +17,7 @@ export interface GetSubscriptionsParameters {
     azureResourceManagementParameters: AzureResourceManagementParameters;
 }
 
-export const getSubscriptions = async (parameters: GetSubscriptionsParameters): Promise<string[]> => {
+export const getSubscriptionIds = async (parameters: GetSubscriptionsParameters): Promise<string[]> => {
     const { azureResourceManagementParameters } = parameters;
     const { authorizationToken, endpoint } = azureResourceManagementParameters;
 
