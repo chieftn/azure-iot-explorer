@@ -3,17 +3,18 @@
  * Licensed under the MIT License
  **********************************************************/
 import { AzureResource } from './models/azureResource';
+import { AzureResourceIdentifier } from './models/azureResourceIdentifier';
 import { SynchronizationWrapper } from '../api/models/synchronizationWrapper';
 import { SynchronizationStatus } from '../api/models/synchronizationStatus';
 
 export interface AzureResourceStateInterface {
     activeAzureResource?: AzureResource;
-    azureResources: SynchronizationWrapper<AzureResource[]>;
+    azureResourceIdentifiers: SynchronizationWrapper<AzureResourceIdentifier[]>;
 }
 
 export const azureResourceStateInitial = (): AzureResourceStateInterface => {
     return {
-        azureResources: {
+        azureResourceIdentifiers: {
             payload: [],
             synchronizationStatus: SynchronizationStatus.initialized
         }

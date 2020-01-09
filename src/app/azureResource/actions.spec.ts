@@ -3,7 +3,7 @@
  * Licensed under the MIT License
  **********************************************************/
 import {
-    getAzureResourcesAction,
+    getAzureResourceIdentifiersAction,
     setActiveAzureResourceAction,
     setActiveAzureResourceByConnectionStringAction,
     SetActiveAzureResourceByConnectionStringActionParameters,
@@ -14,19 +14,19 @@ import { AzureResource } from './models/AzureResource';
 import { AccessVerificationState } from './models/accessVerificationState';
 
 describe('getAzureResourcesActions', () => {
-    it('returns AZURE_RESOURCES/GET_STARTED action object on start', () => {
-        expect(getAzureResourcesAction.started()).toEqual({
+    it('returns AZURE_RESOURCES/GET_IDENTIFIER_STARTED action object on start', () => {
+        expect(getAzureResourceIdentifiersAction.started()).toEqual({
             type: 'AZURE_RESOURCES/GET_STARTED'
         });
     });
 
-    it('returns AZURE_RESOURCES/GET_DONE action object on done', () => {
+    it('returns AZURE_RESOURCES/GET_IDENTIFIER_DONE action object on done', () => {
         expect(getAzureResourcesAction.started()).toEqual({
             type: 'AZURE_RESOURCES/GET_DONE'
         });
     });
 
-    it('returns AZURE_RESOURCES/GET_FAILED action object on failed', () => {
+    it('returns AZURE_RESOURCES/GET_IDENTIFIER_FAILED action object on failed', () => {
         expect(getAzureResourcesAction.started()).toEqual({
             type: 'AZURE_RESOURCES/GET_FAILED'
         });

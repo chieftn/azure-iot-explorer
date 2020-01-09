@@ -5,12 +5,12 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { AzureResourceListView, AzureResourceListViewProps } from './azureResourceListView';
+import { AzureResourceIdentifierListView, AzureResourceIdentifierListViewProps } from './azureResourceIdentifierListView';
 import { AzureResource } from '../models/azureResource';
 import { StateInterface } from '../../shared/redux/state';
 
-export type AzureResourceViewContainerProps = RouteComponentProps;
-export const AzureResourceViewContainer: React.FC<AzureResourceViewContainerProps> = props => {
+export type AzureResourceIdentifierListViewContainerProps = RouteComponentProps;
+export const AzureResourceIdentifierListViewContainer: React.FC<AzureResourceIdentifierListViewContainerProps> = props => {
     const azureResources = useSelector((state: StateInterface) => state.azureResourceState.azureResources);
     const dispatch = useDispatch();
 
@@ -26,12 +26,12 @@ export const AzureResourceViewContainer: React.FC<AzureResourceViewContainerProp
         throw Error('not implemented');
     };
 
-    const viewProps: AzureResourceListViewProps = {
+    const viewProps: AzureResourceIdentifierListViewProps = {
         azureResources,
         getAzureResources,
         navigateToAzureResource,
         setActiveAzureResource
     };
 
-    return <AzureResourceListView {...viewProps} />;
+    return <AzureResourceIdentifierListView {...viewProps} />;
 };
