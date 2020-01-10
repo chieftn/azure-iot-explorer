@@ -192,3 +192,11 @@ export const toEdgeClause = (edgeFunctionName: string, value: string): string =>
 export const toDeviceStatusClause = (edgeFunctionName: string, value: string): string => {
     return `${edgeFunctionName}='${value}'`;
 };
+
+export const isAppInElectron = () => {
+    return process.env.NODE_ENV === AppEnvironment.DevelopmentElectron || process.env.NODE_ENV === AppEnvironment.ProdElectron;
+};
+
+export const isAppInDevelopmentMode = () => {
+    return process.env.NODE_ENV === AppEnvironment.DevelopmentElectron || process.env.NODE_ENV === AppEnvironment.DevelopmentHosted;
+};

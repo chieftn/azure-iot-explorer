@@ -11,7 +11,7 @@ import DeviceEventsPerInterfaceComponent, { DeviceEventsDataProps, DeviceEventsD
 import { mountWithLocalization, testSnapshot } from '../../../../shared/utils/testHelpers';
 import InterfaceNotFoundMessageBoxContainer from '../shared/interfaceNotFoundMessageBarContainer';
 import ErrorBoundary from '../../../errorBoundary';
-import { appConfig, HostMode } from '../../../../../appConfig/appConfig';
+import { AppEnvironment } from '../../../../constants/shared';
 
 describe('components/devices/deviceEventsPerInterface', () => {
 
@@ -79,12 +79,12 @@ describe('components/devices/deviceEventsPerInterface', () => {
     });
 
     it('matches snapshot while interface definition is retrieved in electron', () => {
-        appConfig.hostMode = HostMode.Electron;
+        process.env = {...process.env, NODE_ENV: AppEnvironment.ProdElectron};
         testSnapshot(getComponent({isLoading: false, telemetrySchema}));
     });
 
     it('matches snapshot while interface definition is retrieved in hosted environment', () => {
-        appConfig.hostMode = HostMode.Browser;
+        process.env = {...process.env, NODE_ENV: AppEnvironment.ProdHosted};
         testSnapshot(getComponent({isLoading: false, telemetrySchema}));
     });
 

@@ -55,6 +55,7 @@ export default class ConnectivityPane extends React.Component<RouteComponentProp
             <LocalizationContextConsumer>
                 {(context: LocalizationContextInterface) => (
                     <div className="connectivity-pane" role="main">
+
                         <div className="main" role="dialog">
                             <h1>
                                 {context.t(ResourceKeys.connectivityPane.header)}
