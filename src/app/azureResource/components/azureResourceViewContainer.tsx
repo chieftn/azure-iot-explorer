@@ -8,6 +8,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { setActiveAzureResourceByHostNameAction } from '../actions';
 import { AzureResourceView, AzureResourceViewProps } from './azureResourceView';
 import { getActiveAzureResourceSelector } from '../selectors';
+import { useAccount } from '../../login/hooks/useAccount';
 
 export type AzureResourceViewContainerProps = RouteComponentProps;
 export const AzureResourceViewContainer: React.FC<AzureResourceViewContainerProps> = props => {
@@ -15,6 +16,11 @@ export const AzureResourceViewContainer: React.FC<AzureResourceViewContainerProp
     const currentHostName = (props.match.params as { hostName: string}).hostName;
     const activeAzureResource = useSelector(getActiveAzureResourceSelector);
     const dispatch = useDispatch();
+
+    const { accountName, login } = useAccount();
+    if (!accountName) {
+        login();
+    }
 
     const setActiveAzureResourceByHostName = (hostName: string) => {
         dispatch(setActiveAzureResourceByHostNameAction({

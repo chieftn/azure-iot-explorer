@@ -29,7 +29,7 @@ export const authenticationParameters: Msal.AuthenticationParameters = {
 
 export const azureResourceManagementParameters: Msal.AuthenticationParameters = {
     scopes: [
-        'https://management.azure.com//user_impersonation',
+        'https://management.azure.com//user_impersonation'
     ]
 };
 
@@ -40,8 +40,13 @@ export const executeLoginRedirect = () => {
 export const executeAzureResourceManagementTokenRequest = async (): Promise<string | undefined> => {
     try {
         const response = await msalInstance.acquireTokenSilent(azureResourceManagementParameters);
+        // tslint:disable-next-line:no-console
+        console.log('token silent' + JSON.stringify(response));
         return response.accessToken;
     } catch (error) {
+        // tslint:disable-next-line:no-console
+        console.log('errorToken' + error);
+
         if (error.message && error.message.indexOf('interaction_required') !== -1) {
             msalInstance.acquireTokenRedirect(azureResourceManagementParameters);
         }
@@ -61,6 +66,12 @@ export const getLoginRedirectError = (): Msal.AuthError | undefined => {
 };
 
 export const executeLoginRedirectCallback = (error: Msal.AuthError, response: Msal.AuthResponse) => {
+    // tslint:disable-next-line:no-console
+    console.log('error' + JSON.stringify(error));
+
+    // tslint:disable-next-line:no-console
+    console.log('response' + JSON.stringify(response));
+
     authResponse = response;
     authError = error;
 };

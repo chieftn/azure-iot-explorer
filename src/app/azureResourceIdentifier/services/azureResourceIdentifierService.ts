@@ -32,7 +32,7 @@ export const getAzureResourceIdentifiers = async (parameters: GetAzureResourceId
     const { azureResourceManagementEndpoint, continuationToken, subscriptionIds, resourceType } = parameters;
     const { authorizationToken, endpoint } = azureResourceManagementEndpoint;
 
-    const resourceUrl = `https://${endpoint}/providers/Microsoft.ResourcesGraph/resources?api-version=${azureResourceManagementAPIVersion}`;
+    const resourceUrl = `https://${endpoint}/providers/Microsoft.ResourceGraph/resources?api-version=${azureResourceManagementAPIVersion}`;
     const requestBody: AzureResourceIdentifierQuery = {
         query: `where type =~ '${resourceType}' | project ${azureResourceManagementQueryFields.join(',')}`,
         subscriptions: subscriptionIds,
@@ -81,7 +81,7 @@ export const getAzureResourceIdentifier = async (parameters: GetAzureResourceIde
     const { azureResourceManagementEndpoint, subscriptionIds, resourceName, resourceType } = parameters;
     const { authorizationToken, endpoint } = azureResourceManagementEndpoint;
 
-    const resourceUrl = `https://${endpoint}/providers/Microsoft.ResourcesGraph/resources?api-version=${azureResourceManagementAPIVersion}`;
+    const resourceUrl = `https://${endpoint}/providers/Microsoft.ResourceGraph/resources?api-version=${azureResourceManagementAPIVersion}`;
     const requestBody: AzureResourceIdentifierQuery = {
         query: `where type =~ '${resourceType}' and name =~ '${resourceName}' | project ${azureResourceManagementQueryFields.join(',')}`,
         subscriptions: subscriptionIds,
