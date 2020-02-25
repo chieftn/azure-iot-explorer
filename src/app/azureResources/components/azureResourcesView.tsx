@@ -10,6 +10,7 @@ import { useAccount } from '../../login/hooks/useAccount';
 import { Solution } from '../models/solution';
 import { Group } from '../models/group';
 import { Resource } from '../models/resource';
+import { Link, LinkType } from '../models/link';
 
 export const AzureResourcesView: React.FC = props => {
     const { accountName, login } = useAccount();
@@ -62,6 +63,32 @@ export const AzureResourcesView: React.FC = props => {
                     }
                 ]
             },
+        ],
+        links: [
+            {
+                end: 1,
+                start: 0,
+                text: 'connection',
+                type: LinkType.dps
+            },
+            {
+                end: 0,
+                start: 0,
+                text: 'My cool route',
+                type: LinkType.route
+            },
+            {
+                end: 1,
+                start: 1,
+                text: 'My cool route 2',
+                type: LinkType.route
+            },
+            {
+                end: 3,
+                start: 1,
+                text: 'My cool route 3',
+                type: LinkType.route
+            }
         ]
     };
 
@@ -101,7 +128,7 @@ export const AzureResourcesView: React.FC = props => {
             .attr('stroke-width', 2) // tslint:disable-line:no-magic-numbers
             .attr('height', '90%'); // tslint:disable-line:no-magic-numbers
 
-        const text = svg.selectAll('text')
+        const text = svg.selectAll('.desc')
             .data(dataSet.groups)
             .enter()
             .append('text')
@@ -129,6 +156,43 @@ export const AzureResourcesView: React.FC = props => {
             .attr('height', '10')
             .attr('width', '10');
 
+        // const lineFunction = d3.line<Link>()
+        //     // tslint:disable-next-line:no-any
+        //     .x((d: Link, i: number) => {
+        //         return xScale(d.start.toString())
+
+        //     })
+        //     // tslint:disable-next-line:no-any
+        //     .y((d: Link, i: number) => {
+        //         return yScale(d.start.toString());
+        //     });
+
+        const lines = svg.selectAll('.line')
+        .data(dataSet.links)
+            .enter()
+            .append('line')
+            .attr('x1', (d: Link) => {
+                if (d.type === LinkType.dps) {
+                    return xScale('Device Provisioning') + 30; // tslint:disable-line:no-magic-numbers
+                }
+
+                return xScale('IoT Hubs') + 30; // tslint:disable-line:no-magic-numbers
+            })
+            .attr('y1', (d: Link) => yScale(d.start.toString()) + 5) // tslint:disable-line:no-magic-numbers
+            .attr('x2', (d: Link) => {
+                if (d.type === LinkType.dps) {
+                    return xScale('IoT Hubs') + 10; // tslint:disable-line:no-magic-numbers
+                }
+
+                return xScale('Endpoints') + 10; // tslint:disable-line:no-magic-numbers
+            }) // tslint:disable-line:no-magic-numbers
+            .attr('y2', (d: Link) => yScale(d.end.toString()) + 5) // tslint:disable-line:no-magic-numbers
+            .attr('stroke', 'black')
+            .attr('stroke-width', '2');
+
+            // .datum(dataSet.links)
+            // .attr('d', lineFunction);
+
     }, []); // tslint:disable-line:align
 
     return (
@@ -148,24 +212,4 @@ export const AzureResourcesView: React.FC = props => {
             </div>
         </div>
     );
-
-    // return (
-    //     <div className="app">
-    //         <HeaderContainer />
-    //         <div className="content">
-    //             <SettingsPaneContainer />
-    //             <main role="main">
-    //                 <div style={{marginTop: 10}}>
-    //                     <svg
-    //                         width="100vw"
-    //                         height="90vh"
-    //                     >
-    //                         <Group title="IoT Resources"/>
-    //                         <Group title="Endpoints"/>
-    //                     </svg>
-    //                 </div>
-    //             </main>
-    //         </div>
-    //     </div>
-    // );
 };
