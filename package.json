@@ -70,6 +70,7 @@
   "dependencies": {
     "@azure/event-hubs": "1.0.7",
     "@types/core-js": "2.5.0",
+    "@types/d3": "5.7.2",
     "@types/semver": "6.0.2",
     "@types/uuid": "3.4.5",
     "azure-iot-common": "1.10.3",
@@ -77,6 +78,7 @@
     "body-parser": "1.18.3",
     "core-js": "3.0.0",
     "cors": "2.8.5",
+    "d3": "5.15.0",
     "express": "4.16.4",
     "i18next": "11.10.1",
     "immutable": "4.0.0-rc.12",

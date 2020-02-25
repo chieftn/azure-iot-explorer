@@ -11,6 +11,7 @@ import { AzureResourceViewContainer } from '../../azureResource/components/azure
 import NoMatchError from './noMatchError';
 import { LocalizationContextProvider } from '../contexts/localizationContext';
 import connectivityPaneContainer from '../../login/components/connectivityPaneContainer';
+import { AzureResourcesViewContainer } from '../../azureResources/components/azureResourcesViewContainer';
 import { ROUTE_PARTS } from '../../constants/routes';
 import '../../css/_app.scss';
 
@@ -24,6 +25,7 @@ const app = (localizationContext: any) => {
             <HashRouter>
                 <>
                     <Switch>
+                        <Route exact={true} path="/resources" component={AzureResourcesViewContainer} />
                         <Route exact={true} path="/" component={connectivityPaneContainer}/>
                         <Route path={`/${ROUTE_PARTS.RESOURCE}/:hostName`} component={AzureResourceViewContainer}/>
                         <Route component={NoMatchError}/>

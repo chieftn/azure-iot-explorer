@@ -1,0 +1,17 @@
+/***********************************************************
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License
+ **********************************************************/
+
+.group {
+    fill: white;
+    stroke: green;
+    stroke-width: 5;
+    display: flex;
+
+}
+
+.group-rectangle {
+    height: 100%;
+    width: 30%;
+}
