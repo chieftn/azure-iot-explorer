@@ -15,7 +15,7 @@ import { Link, LinkType } from '../models/link';
 export const AzureResourcesView: React.FC = props => {
     const { accountName, login } = useAccount();
     const d3Container = React.useRef();
-    const viewWidth = 1000;  // tslint:disable-line:no-magic-numbers
+    const viewWidth = 1900;  // tslint:disable-line:no-magic-numbers
     const viewHeight = 600;  // tslint:disable-line:no-magic-numbers
 
     const dataSet: Solution = {
@@ -66,6 +66,12 @@ export const AzureResourcesView: React.FC = props => {
         ],
         links: [
             {
+                end: 0,
+                start: 0,
+                text: 'connection',
+                type: LinkType.dps
+            },
+            {
                 end: 1,
                 start: 0,
                 text: 'connection',
@@ -97,10 +103,37 @@ export const AzureResourcesView: React.FC = props => {
         return;
     }
 
+   // const generateFinancePivot = (d: Resource) => {
+        //     return (
+        //         `<div>
+        //             <div>${d.name}<div>
+        //             <div>${d.name}<div>
+        //         </div>`
+        //     );
+        // };
+
+    const generateArchitectPivot = (d: Resource) => {
+        return (
+            `<div>
+                <div>${d.name}<div>
+
+            </div>`
+        );
+    };
+
+        // const generateOperationsPivot = (d: Resource) => {
+        //     return (
+        //         `<div>
+        //             <div>${d.name}<div>
+        //         </div>`
+        //     );
+        // };
+
     React.useEffect(() => {
         if (!d3Container.current) {
             return;
         }
+
         const svg = d3.select(d3Container.current);
         const xScale = d3.scaleBand()
             .domain(dataSet.groups.map(s => s.nameKey))
@@ -128,6 +161,7 @@ export const AzureResourcesView: React.FC = props => {
             .attr('stroke-width', 2) // tslint:disable-line:no-magic-numbers
             .attr('height', '90%'); // tslint:disable-line:no-magic-numbers
 
+        // column headers
         const text = svg.selectAll('.desc')
             .data(dataSet.groups)
             .enter()
@@ -152,20 +186,18 @@ export const AzureResourcesView: React.FC = props => {
         entries.append('rect')
             .attr('x', '25')
             .attr('y', (d: Resource, i: number) => yScale(i.toString()))
-            .attr('fill', 'blue')
-            .attr('height', '10')
-            .attr('width', '10');
+            .attr('width', xScale.bandwidth() - 40) // tslint:disable-line:no-magic-numbers
+            .attr('height', yScale.bandwidth() - 10) // tslint:disable-line:no-magic-numbers
+            .attr('fill', '#D3D3D3');
 
-        // const lineFunction = d3.line<Link>()
-        //     // tslint:disable-next-line:no-any
-        //     .x((d: Link, i: number) => {
-        //         return xScale(d.start.toString())
-
-        //     })
-        //     // tslint:disable-next-line:no-any
-        //     .y((d: Link, i: number) => {
-        //         return yScale(d.start.toString());
-        //     });
+        const contents = entries.append('foreignObject')
+            .attr('x', '25')
+            .attr('y', (d: Resource, i: number) => yScale(i.toString()))
+            .attr('width', xScale.bandwidth() - 40) // tslint:disable-line:no-magic-numbers
+            .attr('height', yScale.bandwidth() - 10) // tslint:disable-line:no-magic-numbers
+                .html((d: Resource, i: number) => {
+                    return generateArchitectPivot(d);
+                });
 
         const lines = svg.selectAll('.line')
         .data(dataSet.links)
@@ -173,12 +205,12 @@ export const AzureResourcesView: React.FC = props => {
             .append('line')
             .attr('x1', (d: Link) => {
                 if (d.type === LinkType.dps) {
-                    return xScale('Device Provisioning') + 30; // tslint:disable-line:no-magic-numbers
+                    return xScale('Device Provisioning') + xScale.bandwidth() - 16; // tslint:disable-line:no-magic-numbers
                 }
 
-                return xScale('IoT Hubs') + 30; // tslint:disable-line:no-magic-numbers
+                return xScale('IoT Hubs') + xScale.bandwidth() - 16; // tslint:disable-line:no-magic-numbers
             })
-            .attr('y1', (d: Link) => yScale(d.start.toString()) + 5) // tslint:disable-line:no-magic-numbers
+            .attr('y1', (d: Link) => yScale(d.start.toString()) + 35) // tslint:disable-line:no-magic-numbers
             .attr('x2', (d: Link) => {
                 if (d.type === LinkType.dps) {
                     return xScale('IoT Hubs') + 10; // tslint:disable-line:no-magic-numbers
@@ -188,11 +220,9 @@ export const AzureResourcesView: React.FC = props => {
             }) // tslint:disable-line:no-magic-numbers
             .attr('y2', (d: Link) => yScale(d.end.toString()) + 5) // tslint:disable-line:no-magic-numbers
             .attr('stroke', 'black')
-            .attr('stroke-width', '2');
-
-            // .datum(dataSet.links)
-            // .attr('d', lineFunction);
-
+            .attr('stroke-width', '2')
+            .append('title')
+            .text((d: Link) => d.text);
     }, []); // tslint:disable-line:align
 
     return (
