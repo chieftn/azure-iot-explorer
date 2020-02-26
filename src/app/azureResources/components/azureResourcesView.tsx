@@ -195,6 +195,7 @@ export const AzureResourcesView: React.FC = props => {
         const svg = d3.select(d3Container.current);
         // total hack (more than the rest) -- does not clean up, only masks problem.
         svg.selectAll('g').remove();
+        svg.selectAll('line').remove();
 
         const xScale = d3.scaleBand()
             .domain(dataSet.groups.map(s => s.nameKey))
