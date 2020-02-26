@@ -172,6 +172,7 @@ export const AzureResourcesView: React.FC = props => {
 
         const entries = groups
             .selectAll('g')
+
             .data((d: Group) => d.resources)
                 .enter()
                 .append('g');
@@ -186,23 +187,30 @@ export const AzureResourcesView: React.FC = props => {
         entries.append('rect')
             .attr('x', '25')
             .attr('y', (d: Resource, i: number) => yScale(i.toString()))
-            .attr('width', xScale.bandwidth() - 40) // tslint:disable-line:no-magic-numbers
-            .attr('height', yScale.bandwidth() - 10) // tslint:disable-line:no-magic-numbers
-            .attr('fill', '#D3D3D3');
+            .attr('fill', '#D3D3D3')
+            .transition()
+                .ease(d3.easeBack)
+                .duration(700) // tslint:disable-line:no-magic-numbers
+                .attr('width', xScale.bandwidth() - 40) // tslint:disable-line:no-magic-numbers
+                .attr('height', yScale.bandwidth() - 10); // tslint:disable-line:no-magic-numbers
 
         const contents = entries.append('foreignObject')
             .attr('x', '25')
             .attr('y', (d: Resource, i: number) => yScale(i.toString()))
+            .attr('opacity', '0')
             .attr('width', xScale.bandwidth() - 40) // tslint:disable-line:no-magic-numbers
             .attr('height', yScale.bandwidth() - 10) // tslint:disable-line:no-magic-numbers
                 .html((d: Resource, i: number) => {
                     return generateArchitectPivot(d);
                 });
 
+        contents.transition().style('opacity', '1').delay(800); // tslint:disable-line:no-magic-numbers
+
         const lines = svg.selectAll('.line')
         .data(dataSet.links)
             .enter()
             .append('line')
+
             .attr('x1', (d: Link) => {
                 if (d.type === LinkType.dps) {
                     return xScale('Device Provisioning') + xScale.bandwidth() - 16; // tslint:disable-line:no-magic-numbers
@@ -219,10 +227,13 @@ export const AzureResourcesView: React.FC = props => {
                 return xScale('Endpoints') + 10; // tslint:disable-line:no-magic-numbers
             }) // tslint:disable-line:no-magic-numbers
             .attr('y2', (d: Link) => yScale(d.end.toString()) + 5) // tslint:disable-line:no-magic-numbers
-            .attr('stroke', 'black')
-            .attr('stroke-width', '2')
-            .append('title')
-            .text((d: Link) => d.text);
+            .transition()
+            .ease(d3.easeBack)
+            .delay(800) // tslint:disable-line:no-magic-numbers
+                .attr('stroke', 'black')
+                .attr('stroke-width', '2');
+
+        lines.text((d: Link) => d.text);
     }, []); // tslint:disable-line:align
 
     return (
