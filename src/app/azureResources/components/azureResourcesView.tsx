@@ -15,9 +15,9 @@ import { Link, LinkType } from '../models/link';
 import '../../css/resources/_entry.scss';
 
 export enum ViewType {
-    architect,
-    operator,
-    finance
+    architect = 'architect',
+    operator = 'operator',
+    finance = 'finance'
 }
 export const AzureResourcesView: React.FC = props => {
     const { accountName, login } = useAccount();
@@ -192,11 +192,9 @@ export const AzureResourcesView: React.FC = props => {
             return;
         }
 
-        // tslint:disable-next-line:no-console
-        console.log('here we are');
-
         const svg = d3.select(d3Container.current);
-        svg.selectAll().remove();
+        // total hack (more than the rest) -- does not clean up, only masks problem.
+        svg.selectAll('g').remove();
 
         const xScale = d3.scaleBand()
             .domain(dataSet.groups.map(s => s.nameKey))
@@ -309,10 +307,19 @@ export const AzureResourcesView: React.FC = props => {
                 .attr('stroke-width', '2');
 
         lines.text((d: Link) => d.text);
-    }); // tslint:disable-line:align
+    }, [viewType]); // tslint:disable-line:align
 
     const onDropDownChange = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
-        setViewType(ViewType.operator);
+        let newViewType = ViewType.architect;
+        if (item.key === 'finance') {
+            newViewType = ViewType.finance;
+        }
+
+        if (item.key === 'operator') {
+            newViewType = ViewType.operator;
+        }
+
+        setViewType(newViewType);
     };
 
     return (
@@ -321,6 +328,17 @@ export const AzureResourcesView: React.FC = props => {
             <div className="content">
                 <SettingsPaneContainer />
                 <main role="main">
+                    <div style={{ width: 200, marginLeft: 5, marginTop: 10, marginBottom: 10}}>
+                        <Dropdown
+                            options={[
+                                { key: 'architect', text: 'System View'},
+                                { key: 'finance', text: 'Financial View'},
+                                { key: 'operator', text: 'Operator View'}
+                            ]}
+                            selectedKey={viewType.toString()}
+                            onChange={onDropDownChange}
+                        />
+                    </div>
                     <div style={{marginTop: 10}}>
                         <svg
                             width={viewWidth}
@@ -328,16 +346,7 @@ export const AzureResourcesView: React.FC = props => {
                             ref={d3Container}
                         />
                     </div>
-                    <div>
-                        <Dropdown
-                            options={[
-                                { key: 'architect', text: 'System View'},
-                                { key: 'finance', text: 'Financial View'},
-                                { key: 'operator', text: 'Operator View'}
-                            ]}
-                            onChange={onDropDownChange}
-                        />
-                    </div>
+
                 </main>
             </div>
         </div>
