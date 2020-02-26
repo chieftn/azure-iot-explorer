@@ -19,134 +19,146 @@ export enum ViewType {
     operator = 'operator',
     finance = 'finance'
 }
+
+const notionalDataSet: Solution = {
+    groups: [
+        {
+            nameKey: 'Device Provisioning',
+            resources: [
+                {
+                    architectLocation: 'West Central US',
+                    architectMessage: '200 Enrollments',
+                    financeKPI: 'green',
+                    financeKPIMessage: 'Avg $0.00/month',
+                    name: 'dps1',
+                    operatorKPI: 'yellow',
+                    operatorKPIMessage: 'Certificate expiring soon',
+                    type: 'dps'
+                },
+                {
+                    architectLocation: 'West Central US',
+                    architectMessage: '200 Enrollments',
+                    financeKPI: 'green',
+                    financeKPIMessage: 'Avg $0.00/month',
+                    name: 'dps1',
+                    operatorKPI: 'yellow',
+                    operatorKPIMessage: 'No Hub Connections',
+                    type: 'dps'
+                }
+            ]
+        },
+        {
+            nameKey: 'IoT Hubs',
+            resources: [
+                {
+                    architectLocation: 'West US',
+                    architectMessage: 'S2 | 1 unit | 6,000,000 Messages',
+                    financeKPI: 'green',
+                    financeKPIMessage: 'Avg $1000.00/month',
+                    name: 'microwaves',
+                    operatorKPI: 'green',
+                    operatorKPIMessage: 'Operating within expected parameters.',
+                    type: 'iot'
+                },
+                {
+                    architectLocation: 'West US',
+                    architectMessage: 'S1 | 10 units | 400,000 Messages',
+                    financeKPI: 'green',
+                    financeKPIMessage: 'Avg $1000.00/month',
+                    name: 'sector_7G',
+                    operatorKPI: 'red',
+                    operatorKPIMessage: 'Daily message quota exceeded.',
+                    type: 'iot',
+                }
+            ]
+        },
+        {
+            nameKey: 'Endpoints',
+            resources: [
+                {
+                    architectLocation: 'West US',
+                    architectMessage: 'Classic',
+                    financeKPI: 'green',
+                    financeKPIMessage: 'Avg $100.00/month',
+                    name: 'storage_account',
+                    operatorKPI: 'red',
+                    operatorKPIMessage: 'Storage Allocation at Max.',
+                    type: 'endpoint'
+                },
+                {
+                    architectLocation: 'West US',
+                    architectMessage: 'Classic',
+                    financeKPI: 'green',
+                    financeKPIMessage: 'Avg $100.00/month',
+                    name: 'storage_account',
+                    operatorKPI: 'green',
+                    operatorKPIMessage: '10% of Maximum Capacity.',
+                    type: 'endpoint'
+                },
+                {
+                    architectLocation: 'East US',
+                    architectMessage: 'Edge Devices',
+                    financeKPI: 'yellow',
+                    financeKPIMessage: 'Exceeds average by $150.00 per month',
+                    name: 'eventGrid1',
+                    operatorKPI: 'green',
+                    operatorKPIMessage: 'Operating within expected parameters.',
+                    type: 'endpoint'
+                },
+                {
+                    architectLocation: 'East US',
+                    architectMessage: 'Max 20 Consumer Groups | 1000 Brokered Connections',
+                    financeKPI: 'green',
+                    financeKPIMessage: 'Avg $100.00/month',
+                    name: 'eventHub7alpha',
+                    operatorKPI: 'green',
+                    operatorKPIMessage: 'Operating within expected parameters.',
+                    type: 'endpoint'
+                }
+            ]
+        },
+    ],
+    links: [
+        {
+            end: 0,
+            start: 0,
+            text: 'connection',
+            type: LinkType.dps
+        },
+        {
+            end: 1,
+            start: 0,
+            text: 'connection',
+            type: LinkType.dps
+        },
+        {
+            end: 0,
+            start: 0,
+            text: 'My cool route',
+            type: LinkType.route
+        },
+        {
+            end: 1,
+            start: 1,
+            text: 'My cool route 2',
+            type: LinkType.route
+        },
+        {
+            end: 3,
+            start: 1,
+            text: 'My cool route 3',
+            type: LinkType.route
+        }
+    ]
+};
+
 export const AzureResourcesView: React.FC = props => {
     const { accountName, login } = useAccount();
     const [ viewType, setViewType ] = React.useState<ViewType>(ViewType.architect);
+    const [ dataSet, setDataSet ] = React.useState<Solution>(notionalDataSet);
     const d3Container = React.useRef();
     const viewWidth = 1000;  // tslint:disable-line:no-magic-numbers
     const viewHeight = 700;  // tslint:disable-line:no-magic-numbers
-
-    const dataSet: Solution = {
-        groups: [
-            {
-                nameKey: 'Device Provisioning',
-                resources: [
-                    {
-                        architectLocation: 'West Central US',
-                        architectMessage: '200 Enrollments',
-                        financeKPI: 'green',
-                        financeKPIMessage: 'Avg $0.00/month',
-                        name: 'dps1',
-                        operatorKPI: 'yellow',
-                        operatorKPIMessage: 'Certificate expiring soon',
-                        type: 'dps'
-                    }
-                ]
-            },
-            {
-                nameKey: 'IoT Hubs',
-                resources: [
-                    {
-                        architectLocation: 'West US',
-                        architectMessage: 'S2 | 1 unit | 6,000,000 Messages',
-                        financeKPI: 'green',
-                        financeKPIMessage: 'Avg $1000.00/month',
-                        name: 'microwaves',
-                        operatorKPI: 'green',
-                        operatorKPIMessage: 'Operating within expected parameters.',
-                        type: 'iot'
-                    },
-                    {
-                        architectLocation: 'West US',
-                        architectMessage: 'S1 | 10 units | 400,000 Messages',
-                        financeKPI: 'green',
-                        financeKPIMessage: 'Avg $1000.00/month',
-                        name: 'sector_7G',
-                        operatorKPI: 'red',
-                        operatorKPIMessage: 'Daily message quota exceeded.',
-                        type: 'iot',
-                    }
-                ]
-            },
-            {
-                nameKey: 'Endpoints',
-                resources: [
-                    {
-                        architectLocation: 'West US',
-                        architectMessage: 'Classic',
-                        financeKPI: 'green',
-                        financeKPIMessage: 'Avg $100.00/month',
-                        name: 'storage_account',
-                        operatorKPI: 'green',
-                        operatorKPIMessage: 'Operating within expected parameters.',
-                        type: 'endpoint'
-                    },
-                    {
-                        architectLocation: 'East US',
-                        architectMessage: 'Edge Devices',
-                        financeKPI: 'yellow',
-                        financeKPIMessage: 'Exceeds average by $150.00 per month',
-                        name: 'eventGrid1',
-                        operatorKPI: 'green',
-                        operatorKPIMessage: 'Operating within expected parameters.',
-                        type: 'endpoint'
-                    },
-                    {
-                        architectLocation: 'East US',
-                        architectMessage: 'Max 20 Consumer Groups | 1000 Brokered Connections',
-                        financeKPI: 'green',
-                        financeKPIMessage: 'Avg $100.00/month',
-                        name: 'eventHub7alpha',
-                        operatorKPI: 'green',
-                        operatorKPIMessage: 'Operating within expected parameters.',
-                        type: 'endpoint'
-                    },
-                    {
-                        architectLocation: 'West Central US',
-                        architectMessage: '1 Consumer Group | 100 Brokered Connections',
-                        financeKPI: 'green',
-                        financeKPIMessage: 'Avg $100.00/month',
-                        name: 'affansEventHubThatWeStillUse',
-                        operatorKPI: 'green',
-                        operatorKPIMessage: 'Operating within expected parameters.',
-                        type: 'endpoint'
-                    }
-                ]
-            },
-        ],
-        links: [
-            {
-                end: 0,
-                start: 0,
-                text: 'connection',
-                type: LinkType.dps
-            },
-            {
-                end: 1,
-                start: 0,
-                text: 'connection',
-                type: LinkType.dps
-            },
-            {
-                end: 0,
-                start: 0,
-                text: 'My cool route',
-                type: LinkType.route
-            },
-            {
-                end: 1,
-                start: 1,
-                text: 'My cool route 2',
-                type: LinkType.route
-            },
-            {
-                end: 3,
-                start: 1,
-                text: 'My cool route 3',
-                type: LinkType.route
-            }
-        ]
-    };
 
     if (!accountName) {
         login();
@@ -185,6 +197,12 @@ export const AzureResourcesView: React.FC = props => {
                 </div>
             </div>`
         );
+    };
+
+      // tslint:disable-next-line:no-any
+    const onEvent = (e: any) => {
+        // tslint:disable-next-line:no-console
+        console.log('here we are');
     };
 
     React.useEffect(() => {
@@ -244,7 +262,10 @@ export const AzureResourcesView: React.FC = props => {
             .attr('y', (d: Resource, i: number) => yScale(i.toString()))
             .attr('fill', 'blue')
             .attr('height', '10')
-            .attr('width', '10');
+            .attr('width', '10')
+            .on('click', () => {
+                window.location.href = '#/resources/rkessleriothuboutlook.azure-devices.net/devices';
+            });
 
         entries.append('rect')
             .attr('x', '25')
@@ -308,7 +329,7 @@ export const AzureResourcesView: React.FC = props => {
                 .attr('stroke-width', '2');
 
         lines.text((d: Link) => d.text);
-    }, [viewType]); // tslint:disable-line:align
+    }, [viewType, dataSet]); // tslint:disable-line:align
 
     const onDropDownChange = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
         let newViewType = ViewType.architect;
