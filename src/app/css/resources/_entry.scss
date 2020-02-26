@@ -7,3 +7,27 @@
     height: 10;
     width: 10;
 }
+
+.entry {
+    margin: 5px;
+}
+
+.title {
+    font-size: large;
+}
+
+.message {
+    margin-top: 5px;
+    display: flex;
+}
+
+.kpi-message {
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.kpi {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}

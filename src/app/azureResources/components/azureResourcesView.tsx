@@ -4,6 +4,7 @@
  **********************************************************/
 import * as React from 'react';
 import * as d3 from 'd3';
+import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
 import HeaderContainer from '../../shared/components/headerContainer';
 import SettingsPaneContainer from '../../settings/components/settingsPaneContainer';
 import { useAccount } from '../../login/hooks/useAccount';
@@ -11,12 +12,19 @@ import { Solution } from '../models/solution';
 import { Group } from '../models/group';
 import { Resource } from '../models/resource';
 import { Link, LinkType } from '../models/link';
+import '../../css/resources/_entry.scss';
 
+export enum ViewType {
+    architect,
+    operator,
+    finance
+}
 export const AzureResourcesView: React.FC = props => {
     const { accountName, login } = useAccount();
+    const [ viewType, setViewType ] = React.useState<ViewType>(ViewType.architect);
     const d3Container = React.useRef();
-    const viewWidth = 1900;  // tslint:disable-line:no-magic-numbers
-    const viewHeight = 600;  // tslint:disable-line:no-magic-numbers
+    const viewWidth = 1000;  // tslint:disable-line:no-magic-numbers
+    const viewHeight = 700;  // tslint:disable-line:no-magic-numbers
 
     const dataSet: Solution = {
         groups: [
@@ -24,7 +32,13 @@ export const AzureResourcesView: React.FC = props => {
                 nameKey: 'Device Provisioning',
                 resources: [
                     {
+                        architectLocation: 'West Central US',
+                        architectMessage: '200 Enrollments',
+                        financeKPI: 'green',
+                        financeKPIMessage: 'Avg $0.00/month',
                         name: 'dps1',
+                        operatorKPI: 'yellow',
+                        operatorKPIMessage: 'Certificate expiring soon',
                         type: 'dps'
                     }
                 ]
@@ -33,12 +47,24 @@ export const AzureResourcesView: React.FC = props => {
                 nameKey: 'IoT Hubs',
                 resources: [
                     {
-                        name: 'iot hub 1',
+                        architectLocation: 'West US',
+                        architectMessage: 'S2 | 1 unit | 6,000,000 Messages',
+                        financeKPI: 'green',
+                        financeKPIMessage: 'Avg $1000.00/month',
+                        name: 'microwaves',
+                        operatorKPI: 'green',
+                        operatorKPIMessage: 'Operating within expected parameters.',
                         type: 'iot'
                     },
                     {
-                        name: 'iot hub 2',
-                        type: 'iot'
+                        architectLocation: 'West US',
+                        architectMessage: 'S1 | 10 units | 400,000 Messages',
+                        financeKPI: 'green',
+                        financeKPIMessage: 'Avg $1000.00/month',
+                        name: 'sector_7G',
+                        operatorKPI: 'red',
+                        operatorKPIMessage: 'Daily message quota exceeded.',
+                        type: 'iot',
                     }
                 ]
             },
@@ -46,19 +72,43 @@ export const AzureResourcesView: React.FC = props => {
                 nameKey: 'Endpoints',
                 resources: [
                     {
-                        name: 'endpoint 1',
+                        architectLocation: 'West US',
+                        architectMessage: 'Classic',
+                        financeKPI: 'green',
+                        financeKPIMessage: 'Avg $100.00/month',
+                        name: 'storage_account',
+                        operatorKPI: 'green',
+                        operatorKPIMessage: 'Operating within expected parameters.',
                         type: 'endpoint'
                     },
                     {
-                        name: 'endpoint 2',
+                        architectLocation: 'East US',
+                        architectMessage: 'Edge Devices',
+                        financeKPI: 'yellow',
+                        financeKPIMessage: 'Exceeds average by $150.00 per month',
+                        name: 'eventGrid1',
+                        operatorKPI: 'green',
+                        operatorKPIMessage: 'Operating within expected parameters.',
                         type: 'endpoint'
                     },
                     {
-                        name: 'endpoint 3',
+                        architectLocation: 'East US',
+                        architectMessage: 'Max 20 Consumer Groups | 1000 Brokered Connections',
+                        financeKPI: 'green',
+                        financeKPIMessage: 'Avg $100.00/month',
+                        name: 'eventHub7alpha',
+                        operatorKPI: 'green',
+                        operatorKPIMessage: 'Operating within expected parameters.',
                         type: 'endpoint'
                     },
                     {
-                        name: 'endpoint 4',
+                        architectLocation: 'West Central US',
+                        architectMessage: '1 Consumer Group | 100 Brokered Connections',
+                        financeKPI: 'green',
+                        financeKPIMessage: 'Avg $100.00/month',
+                        name: 'affansEventHubThatWeStillUse',
+                        operatorKPI: 'green',
+                        operatorKPIMessage: 'Operating within expected parameters.',
                         type: 'endpoint'
                     }
                 ]
@@ -103,38 +153,51 @@ export const AzureResourcesView: React.FC = props => {
         return;
     }
 
-   // const generateFinancePivot = (d: Resource) => {
-        //     return (
-        //         `<div>
-        //             <div>${d.name}<div>
-        //             <div>${d.name}<div>
-        //         </div>`
-        //     );
-        // };
-
-    const generateArchitectPivot = (d: Resource) => {
+    const generateFinancePivot = (d: Resource) => {
         return (
-            `<div>
-                <div>${d.name}<div>
-
+            `<div class='entry'>
+                <div class='title'>${d.name}</div>
+                <div class='message'>
+                    <div class='kpi' style='background-color:${d.financeKPI}'></div>
+                    <div class='kpi-message'>${d.financeKPIMessage}</div>
+                </div>
             </div>`
         );
     };
 
-        // const generateOperationsPivot = (d: Resource) => {
-        //     return (
-        //         `<div>
-        //             <div>${d.name}<div>
-        //         </div>`
-        //     );
-        // };
+    const generateArchitectPivot = (d: Resource) => {
+        return (
+            `<div class='entry'>
+                <div class='title'>${d.name}</div>
+                <div class='message'>${d.architectMessage}</div>
+                <div class='message'>${d.architectLocation}</div>
+            </div>`
+        );
+    };
+
+    const generateOperationsPivot = (d: Resource) => {
+        return (
+            `<div class='entry'>
+                <div class='title'>${d.name}</div>
+                <div class='message'>
+                    <div class='kpi' style='background-color:${d.operatorKPI}'></div>
+                    <div class='kpi-message'>${d.operatorKPIMessage}</div>
+                </div>
+            </div>`
+        );
+    };
 
     React.useEffect(() => {
         if (!d3Container.current) {
             return;
         }
 
+        // tslint:disable-next-line:no-console
+        console.log('here we are');
+
         const svg = d3.select(d3Container.current);
+        svg.selectAll().remove();
+
         const xScale = d3.scaleBand()
             .domain(dataSet.groups.map(s => s.nameKey))
             .rangeRound([0, viewWidth])
@@ -155,7 +218,7 @@ export const AzureResourcesView: React.FC = props => {
         groups
             .append('rect')
             .attr('width', xScale.bandwidth())
-            .attr('stroke', 'gray' )
+            .attr('stroke', '#D3D3D3' )
             .attr('fill', 'none')
             .attr('y', 20) // tslint:disable-line:no-magic-numbers
             .attr('stroke-width', 2) // tslint:disable-line:no-magic-numbers
@@ -180,7 +243,7 @@ export const AzureResourcesView: React.FC = props => {
         entries.append('rect')
             .attr('x', '10')
             .attr('y', (d: Resource, i: number) => yScale(i.toString()))
-            .attr('fill', 'red')
+            .attr('fill', 'blue')
             .attr('height', '10')
             .attr('width', '10');
 
@@ -201,7 +264,19 @@ export const AzureResourcesView: React.FC = props => {
             .attr('width', xScale.bandwidth() - 40) // tslint:disable-line:no-magic-numbers
             .attr('height', yScale.bandwidth() - 10) // tslint:disable-line:no-magic-numbers
                 .html((d: Resource, i: number) => {
-                    return generateArchitectPivot(d);
+                    // tslint:disable-next-line:no-console
+                    console.log('allow me');
+                    if (viewType === ViewType.architect) {
+                        return generateArchitectPivot(d);
+                    }
+
+                    if (viewType === ViewType.operator) {
+                        return generateOperationsPivot(d);
+                    }
+
+                    if (viewType === ViewType.finance) {
+                        return generateFinancePivot(d);
+                    }
                 });
 
         contents.transition().style('opacity', '1').delay(800); // tslint:disable-line:no-magic-numbers
@@ -230,11 +305,15 @@ export const AzureResourcesView: React.FC = props => {
             .transition()
             .ease(d3.easeBack)
             .delay(800) // tslint:disable-line:no-magic-numbers
-                .attr('stroke', 'black')
+                .attr('stroke', 'gray')
                 .attr('stroke-width', '2');
 
         lines.text((d: Link) => d.text);
-    }, []); // tslint:disable-line:align
+    }); // tslint:disable-line:align
+
+    const onDropDownChange = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
+        setViewType(ViewType.operator);
+    };
 
     return (
         <div className="app">
@@ -247,6 +326,16 @@ export const AzureResourcesView: React.FC = props => {
                             width={viewWidth}
                             height={viewHeight}
                             ref={d3Container}
+                        />
+                    </div>
+                    <div>
+                        <Dropdown
+                            options={[
+                                { key: 'architect', text: 'System View'},
+                                { key: 'finance', text: 'Financial View'},
+                                { key: 'operator', text: 'Operator View'}
+                            ]}
+                            onChange={onDropDownChange}
                         />
                     </div>
                 </main>

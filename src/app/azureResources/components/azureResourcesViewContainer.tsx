@@ -8,5 +8,7 @@ import { AzureResourcesView } from './azureResourcesView';
 
 export type AzureResourcesViewContainerProps = RouteComponentProps;
 export const AzureResourcesViewContainer: React.FC<AzureResourcesViewContainerProps> = props => {
-   return <AzureResourcesView />;
+   return (
+      <AzureResourcesView />
+   );
 };
