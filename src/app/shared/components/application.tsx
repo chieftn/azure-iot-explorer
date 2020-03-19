@@ -25,8 +25,8 @@ const app = (localizationContext: any) => {
             <HashRouter>
                 <>
                     <Switch>
-                        <Route exact={true} path="/resources" component={AzureResourcesViewContainer} />
                         <Route exact={true} path="/" component={connectivityPaneContainer}/>
+                        <Route exact={true} path="/resources" component={AzureResourcesViewContainer} />
                         <Route path={`/${ROUTE_PARTS.RESOURCE}/:hostName`} component={AzureResourceViewContainer}/>
                         <Route component={NoMatchError}/>
 

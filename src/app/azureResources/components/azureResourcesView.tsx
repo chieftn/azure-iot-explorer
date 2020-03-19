@@ -90,7 +90,7 @@ const notionalDataSet: Solution = {
                     architectMessage: 'Classic',
                     financeKPI: 'green',
                     financeKPIMessage: 'Avg $100.00/month',
-                    name: 'storage_account',
+                    name: 'storage_account2',
                     operatorKPI: 'green',
                     operatorKPIMessage: '10% of Maximum Capacity.',
                     type: 'endpoint'
@@ -157,7 +157,7 @@ export const AzureResourcesView: React.FC = props => {
     const [ viewType, setViewType ] = React.useState<ViewType>(ViewType.architect);
     const [ dataSet, setDataSet ] = React.useState<Solution>(notionalDataSet);
     const d3Container = React.useRef();
-    const viewWidth = 1000;  // tslint:disable-line:no-magic-numbers
+    const viewWidth = 1500;  // tslint:disable-line:no-magic-numbers
     const viewHeight = 700;  // tslint:disable-line:no-magic-numbers
 
     if (!accountName) {
@@ -195,14 +195,13 @@ export const AzureResourcesView: React.FC = props => {
                     <div class='kpi' style='background-color:${d.operatorKPI}'></div>
                     <div class='kpi-message'>${d.operatorKPIMessage}</div>
                 </div>
+                <div>
+                    ${d.name === 'storage_account' && dataSet.links[2].end === 0 ? // tslint:disable-line:no-magic-numbers
+                        '<a style={cursor:"pointer"}>Action: switch to storage_Account2</a>' :
+                        '</>'}
+                </div>
             </div>`
         );
-    };
-
-      // tslint:disable-next-line:no-any
-    const onEvent = (e: any) => {
-        // tslint:disable-next-line:no-console
-        console.log('here we are');
     };
 
     React.useEffect(() => {
@@ -263,7 +262,8 @@ export const AzureResourcesView: React.FC = props => {
             .attr('fill', 'blue')
             .attr('height', '10')
             .attr('width', '10')
-            .on('click', () => {
+            // tslint:disable-next-line:no-any
+            .on('click', (event: any) => {
                 window.location.href = '#/resources/rkessleriothuboutlook.azure-devices.net/devices';
             });
 
@@ -284,8 +284,6 @@ export const AzureResourcesView: React.FC = props => {
             .attr('width', xScale.bandwidth() - 40) // tslint:disable-line:no-magic-numbers
             .attr('height', yScale.bandwidth() - 10) // tslint:disable-line:no-magic-numbers
                 .html((d: Resource, i: number) => {
-                    // tslint:disable-next-line:no-console
-                    console.log('allow me');
                     if (viewType === ViewType.architect) {
                         return generateArchitectPivot(d);
                     }
@@ -296,6 +294,12 @@ export const AzureResourcesView: React.FC = props => {
 
                     if (viewType === ViewType.finance) {
                         return generateFinancePivot(d);
+                    }
+                })
+                // tslint:disable-next-line:no-any
+                .on('click', (event: any) => {
+                    if (event.name === 'storage_account' && viewType === ViewType.operator) {
+                        onEvent(event);
                     }
                 });
 
@@ -342,6 +346,26 @@ export const AzureResourcesView: React.FC = props => {
         }
 
         setViewType(newViewType);
+    };
+
+    // tslint:disable-next-line:no-any
+    const onEvent = (e: any) => {
+        setTimeout(() => {
+            // tslint:disable-next-line:no-console
+            const newDataSet = {...dataSet};
+            newDataSet.links = dataSet.links.map((s, i) => {
+                // tslint:disable-next-line:no-magic-numbers
+                if (i === 2) {
+                    const newS = {...s};
+                    newS.end = 1;
+                    return newS;
+                }
+
+                return s;
+            });
+
+            setDataSet(newDataSet);
+        },         2000); // tslint:disable-line:no-magic-numbers
     };
 
     return (

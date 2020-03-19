@@ -42,6 +42,9 @@ export const executeAzureResourceManagementTokenRequest = async (): Promise<stri
         const response = await msalInstance.acquireTokenSilent(azureResourceManagementParameters);
         return response.accessToken;
     } catch (error) {
+        // tslint:disable-next-line:no-console
+        console.log('___________________________' + JSON.stringify(error));
+
         if (error.message && error.message.indexOf('interaction_required') !== -1) {
             msalInstance.acquireTokenRedirect(azureResourceManagementParameters);
         }
@@ -61,6 +64,9 @@ export const getLoginRedirectError = (): Msal.AuthError | undefined => {
 };
 
 export const executeLoginRedirectCallback = (error: Msal.AuthError, response: Msal.AuthResponse) => {
+    // tslint:disable-next-line:no-console
+    console.log('heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeere' + JSON.stringify(response));
+
     authResponse = response;
     authError = error;
 };
