@@ -16,7 +16,6 @@ import { ResourceKeys } from '../../../../localization/resourceKeys';
 import { DeviceSummary } from '../../../api/models/deviceSummary';
 import DeviceQuery from '../../../api/models/deviceQuery';
 import DeviceListCommandBar from './deviceListCommandBar';
-import Breadcrumb from '../../../shared/components/breadcrumb';
 import DeviceListQuery from './deviceListQuery';
 import ListPaging from './listPaging';
 import { ROUTE_PARTS, ROUTE_PARAMS } from '../../../constants/routes';
@@ -24,7 +23,6 @@ import { CHECK } from '../../../constants/iconNames';
 import MultiLineShimmer from '../../../shared/components/multiLineShimmer';
 import { LARGE_COLUMN_WIDTH, EXTRA_SMALL_COLUMN_WIDTH, SMALL_COLUMN_WIDTH, MEDIUM_COLUMN_WIDTH } from '../../../constants/columnWidth';
 import '../../../css/_deviceList.scss';
-import '../../../css/_layouts.scss';
 
 export interface DeviceListDataProps {
     devices?: DeviceSummary[];
@@ -69,14 +67,11 @@ class DeviceListComponent extends React.Component<DeviceListDataProps & DeviceLi
         return (
             <LocalizationContextConsumer>
                 {(context: LocalizationContextInterface) => (
-                    <div className="view">
-                        <div className="view-header">
-                            <Route component={Breadcrumb} />
-                        </div>
+                    <>
                         <div className="view-command">
                             {this.showCommandBar()}
                         </div>
-                        <div className="view-content view-scroll-vertical">
+                        <div className="view-scroll-vertical">
                             <DeviceListQuery
                                 refresh={this.state.refreshQuery}
                                 setQueryAndExecute={this.setQueryAndExecute}
@@ -84,7 +79,7 @@ class DeviceListComponent extends React.Component<DeviceListDataProps & DeviceLi
                             {this.showDeviceList(context)}
                             {this.state.showDeleteConfirmation && this.deleteConfirmationDialog(context)}
                         </div>
-                    </div>
+                    </>
                 )}
             </LocalizationContextConsumer>
         );

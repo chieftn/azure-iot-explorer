@@ -19,7 +19,6 @@ import LabelWithTooltip from '../../../../../shared/components/labelWithTooltip'
 import MaskedCopyableTextFieldContainer from '../../../../../shared/components/maskedCopyableTextFieldContainer';
 import { SynchronizationStatus } from '../../../../../api/models/synchronizationStatus';
 import { SAVE, CANCEL } from '../../../../../constants/iconNames';
-import Breadcrumb from '../../../../../shared/components/breadcrumb';
 import '../../../../../css/_addDevice.scss';
 import '../../../../../css/_layouts.scss';
 
@@ -70,9 +69,6 @@ export default class AddDevice extends React.Component<AddDeviceActionProps & Ad
             <LocalizationContextConsumer>
                 {(context: LocalizationContextInterface) => (
                      <form onSubmit={this.handleSave} className="view add-device">
-                        <div className="view-header">
-                            <Route component={Breadcrumb} />
-                        </div>
                         <div className="view-command">
                             {this.showCommandBar(context)}
                         </div>

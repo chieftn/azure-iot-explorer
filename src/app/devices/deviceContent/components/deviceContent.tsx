@@ -12,7 +12,6 @@ import DirectMethodContainer from './directMethod/directMethodContainer';
 import CloudToDeviceMessageContainer from './cloudToDeviceMessage/cloudToDeviceMessageContainer';
 import ModuleIdentityContent from '../../module/components/moduleIdentity/moduleIdentityContent';
 import DeviceContentNavComponent from './deviceContentNav';
-import Breadcrumb from '../../../shared/components/breadcrumb';
 import DigitalTwinsContentContainer from './digitalTwin/digitalTwinContentContainer';
 import { DigitalTwinInterfacesContainer } from './digitalTwin/digitalTwinInterfaces';
 import { ResourceKeys } from '../../../../localization/resourceKeys';
@@ -58,21 +57,16 @@ export class DeviceContentComponent extends React.PureComponent<DeviceContentPro
         return (
             <LocalizationContextConsumer>
             {(context: LocalizationContextInterface) => (
-                <div className="edit">
-                    <div className="view-header">
-                        <Route component={Breadcrumb} />
-                    </div>
+                <>
                     {this.props.deviceId &&
-                        <div className="edit-content">
-                            <div className="device-content">
-                                <>
-                                    {this.renderNav(context)}
-                                    {this.renderDeviceContentDetail()}
-                                </>
-                            </div>
+                        <div className="device-content">
+                            <>
+                                {this.renderNav(context)}
+                                {this.renderDeviceContentDetail()}
+                            </>
                         </div>
                     }
-                </div>
+                </>
             )}
             </LocalizationContextConsumer>
         );
