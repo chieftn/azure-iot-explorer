@@ -8,6 +8,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { setActiveAzureResourceByHostNameAction } from '../actions';
 import { AzureResourceView, AzureResourceViewProps } from './azureResourceView';
 import { getActiveAzureResourceSelector } from '../selectors';
+import { ApplicationFrame } from '../../shared/components/applicationFrame';
 
 export type AzureResourceViewContainerProps = RouteComponentProps;
 export const AzureResourceViewContainer: React.FC<AzureResourceViewContainerProps> = props => {
@@ -29,5 +30,9 @@ export const AzureResourceViewContainer: React.FC<AzureResourceViewContainerProp
         setActiveAzureResourceByHostName
     };
 
-    return <AzureResourceView {...viewProps} />;
+    return (
+        <ApplicationFrame>
+            <AzureResourceView {...viewProps} />
+        </ApplicationFrame>
+    );
 };
