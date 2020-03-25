@@ -11,7 +11,8 @@ import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 import Themer from './themer';
 import resources from './localization/resources';
 import configureStore from './app/shared/redux/store/configureStore';
-import App from './app/shared/components/application';
+import Localizer from './app/shared/components/localizer';
+import { Application } from './app/shared/components/application';
 
 const defaultLanguage = 'en';
 const fallbackLanguage = 'en';
@@ -34,7 +35,9 @@ const ViewHolder =  () => (
     <I18nextProvider i18n={i18next}>
         <Provider store={store}>
             <Themer>
-                <App />
+                <Localizer>
+                    <Application />
+                </Localizer>
             </Themer>
         </Provider>
     </I18nextProvider>
