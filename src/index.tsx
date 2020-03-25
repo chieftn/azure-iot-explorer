@@ -13,6 +13,7 @@ import resources from './localization/resources';
 import configureStore from './app/shared/redux/store/configureStore';
 import Localizer from './app/shared/components/localizer';
 import { Application } from './app/shared/components/application';
+import './app/css/_index.scss';
 
 const defaultLanguage = 'en';
 const fallbackLanguage = 'en';

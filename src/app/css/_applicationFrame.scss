@@ -6,20 +6,15 @@
 @import 'variables';
 @import 'themes';
 
-body {
-    margin: 0;
-    height: 100vh;
-}
-
 .app {
 
     font-family: "Segoe UI" !important;
     font-size: 14px !important;
     display: grid;
-    grid-template-rows: $mastheadHeight auto 1fr;
+    grid-template-rows: $mastheadHeight $navigationHeight 1fr;
     grid-template-columns: 1fr;
     display: -ms-grid;
-    -ms-grid-template-rows: $mastheadHeight auto 1fr;
+    -ms-grid-template-rows: $mastheadHeight $navigationHeight 1fr;
     -ms-grid-columns: 1fr;
     width: 100%;
     height: 100vh;
@@ -52,23 +47,5 @@ body {
         grid-column: 1;
         -ms-grid-row: 3;
         -ms-grid-column: 1;
-    }
-}
-
-.fixed-shimmer {
-    overflow-y: hidden;
-}
-
-.ms-Fabric {
-    @include themify($themes) {
-        color: themed('textColor');
-        background: themed('backgroundColor');
-    }
-    .ms-Callout-container{
-        .ms-Callout {
-            @include themify($themes) {
-                box-shadow: themed('calloutShadow');
-            }
-        }
     }
 }

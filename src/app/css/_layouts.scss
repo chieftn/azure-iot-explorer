@@ -8,8 +8,7 @@
 .view {
     width: 100%;
     display: grid;
-    height: calc(100vh - 130px);
-    // height: 100%;
+    height: calc(100vh - #{$mastheadHeight} - #{$navigationHeight});
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr;
     display: -ms-grid;
@@ -37,23 +36,7 @@
     }
 }
 
-.edit {
-    width: 100%;
-    display: grid;
-    height: calc(100vh - #{$mastheadHeight});
-    grid-template-rows: auto 1fr;
-    grid-template-columns: 1fr;
-    display: -ms-grid;
-    -ms-grid-columns: 1fr;
-    -ms-grid-rows: auto 1fr;
-    row-gap: 0;
-}
-
 .edit-content {
-    grid-row: 3;
-    grid-column: 1;
-    -ms-grid-row: 3;
-    -ms-grid-column: 1;
     @include themify($themes) {
         border-top: 1px solid themed('editContentBorderColor');
     }
