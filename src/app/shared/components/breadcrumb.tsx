@@ -13,11 +13,9 @@ import { getDeviceIdFromQueryString, getComponentNameFromQueryString } from '../
 import '../../css/_breadcrumb.scss';
 
 const Breadcrumb = () => (
-    <div>
-        <ul className="breadcrumb">
-            <Route path="/:path" component={BreadcrumbItemContainer} />
-        </ul>
-    </div>
+    <ul className="breadcrumb">
+        <Route path="/:path" component={BreadcrumbItemContainer} />
+    </ul>
 );
 
 export interface BreadcrumbItemDataProps extends RouteComponentProps{
