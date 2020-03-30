@@ -1,0 +1,23 @@
+/***********************************************************
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License
+ **********************************************************/
+ .connection-string-edit-header {
+
+
+ }
+
+ .connection-string-edit-footer {
+    display: flex;
+    padding: {
+        left: 32px;
+        bottom: 32px;
+        right: 32px;
+        top: 0px;
+    }
+    margin-bottom: 0px;
+    button {
+        margin-right: 10px;
+    }
+}
+
