@@ -3,7 +3,8 @@
  * Licensed under the MIT License
  **********************************************************/
 import * as React from 'react';
-import { IconButton, ActionButton } from 'office-ui-fabric-react/lib/Button';
+import { IconButton } from 'office-ui-fabric-react/lib/Button';
+import { Link } from 'office-ui-fabric-react/lib/Link';
 import { getConnectionInfoFromConnectionString } from '../../api/shared/utils';
 import { getResourceNameFromHostName } from '../../api/shared/hostNameUtils';
 import { ConnectionStringProperties } from './connectionStringProperties';
@@ -42,11 +43,12 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
         <div className="connection-string">
             <div className="commands">
                 <div className="name">
-                    <ActionButton
-                        text={resourceName}
+                    <Link
                         ariaLabel={t(ResourceKeys.connectionStrings.visitConnectionCommand.ariaLabel, {connectionString})}
                         onClick={onSelectConnectionStringClick}
-                    />
+                    >
+                        {resourceName}
+                    </Link>
                 </div>
                 <div className="actions">
                     <IconButton

@@ -2,11 +2,14 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License
  **********************************************************/
+ @import '../../css/themes';
+ @import '../../css/variables';
+
  .connection-string {
    margin-left: 20px;
    margin-right: 20px;
-   margin-bottom: 40px;
-   margin-top: 10px;
+   margin-bottom: 20px;
+   margin-top: 20px;
    width: 550px;
 
    .commands {
@@ -21,24 +24,27 @@
    }
 
    .name {
+      @include themify($themes) {
+         border: 1px solid themed('borderColor')
+      }
+      @include themify($themes) {
+         border-bottom: 2px solid themed('backgroundColor')
+      }
+
       font-size: 16px;
-      border-width: 1px;
-      border-style: solid;
-      border-color: black;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
-      padding: 10px;
-
-      border-bottom-width: 2px;
-      border-bottom-color: white;
+      padding-top: 10px;
+      padding-left: 10px;
+      padding-right: 10px;
       margin-bottom: -1px;
       text-overflow: ellipsis;
    }
 
    .properties {
-      border-width: 1px;
-      border-style: solid;
-      border-color: black;
+      @include themify($themes) {
+         border: 1px solid themed('borderColor')
+      }
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
       border-top-right-radius: 5px;
