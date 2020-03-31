@@ -116,6 +116,19 @@ export class ResourceKeys {
          ariaLabel : "connectionStrings.copyConnectionCommand.ariaLabel",
          label : "connectionStrings.copyConnectionCommand.label",
       },
+      deleteConnection : {
+         body : "connectionStrings.deleteConnection.body",
+         input : "connectionStrings.deleteConnection.input",
+         no : {
+            ariaLabel : "connectionStrings.deleteConnection.no.ariaLabel",
+            label : "connectionStrings.deleteConnection.no.label",
+         },
+         title : "connectionStrings.deleteConnection.title",
+         yes : {
+            ariaLabel : "connectionStrings.deleteConnection.yes.ariaLabel",
+            label : "connectionStrings.deleteConnection.yes.label",
+         },
+      },
       deleteConnectionCommand : {
          ariaLabel : "connectionStrings.deleteConnectionCommand.ariaLabel",
          label : "connectionStrings.deleteConnectionCommand.label",
@@ -131,6 +144,7 @@ export class ResourceKeys {
          editField : {
             ariaLabel : "connectionStrings.editConnection.editField.ariaLabel",
             label : "connectionStrings.editConnection.editField.label",
+            placeholder : "connectionStrings.editConnection.editField.placeholder",
          },
          save : {
             ariaLabel : "connectionStrings.editConnection.save.ariaLabel",

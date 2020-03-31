@@ -159,6 +159,19 @@
         "visitConnectionCommand": {
             "ariaLabel": "View resource: {{connection string}}"
         },
+        "deleteConnection": {
+            "title": "Confirm Delete",
+            "body": "Delete the following connection string?",
+            "input": "Connection string to delete",
+            "yes": {
+                "ariaLabel": "Yes, delete {{connectionString}}",
+                "label": "Yes"
+            },
+            "no": {
+                "ariaLabel": "No, do not delete {{connectionString}}",
+                "label": "No"
+            }
+        },
         "editConnection": {
             "save": {
                 "label": "Save",
@@ -177,7 +190,8 @@
             },
             "editField": {
                 "label": "Connection String",
-                "ariaLabel": "Connection String"
+                "ariaLabel": "Connection String",
+                "placeholder": "enter a connection string"
             },
             "validations": {
                 "duplicate": "The specified connection string is already listed."

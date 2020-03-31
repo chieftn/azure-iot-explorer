@@ -117,6 +117,7 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
                     errorMessage={t(connectionStringValidationKey)}
                     value={connectionString}
                     required={true}
+                    placeholder={t(ResourceKeys.connectionStrings.editConnection.editField.placeholder)}
                 />
             </div>
         </Panel>

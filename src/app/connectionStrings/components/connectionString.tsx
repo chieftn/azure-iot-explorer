@@ -10,7 +10,7 @@ import { getResourceNameFromHostName } from '../../api/shared/hostNameUtils';
 import { ConnectionStringProperties } from './connectionStringProperties';
 import { useLocalizationContext } from '../../shared/contexts/localizationContext';
 import { ResourceKeys } from '../../../localization/resourceKeys';
-
+import { ConnectionStringDelete } from './connectionStringDelete';
 import './connectionString.scss';
 
 export interface ConnectionStringProps {
@@ -25,6 +25,7 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
     const connectionSettings = getConnectionInfoFromConnectionString(connectionString);
     const { hostName, sharedAccessKey, sharedAccessKeyName } = connectionSettings;
     const resourceName = getResourceNameFromHostName(hostName);
+    const [ confirmingDelete, setConfirmingDelete ] = React.useState<boolean>(false);
     const { t } = useLocalizationContext();
 
     const onEditConnectionStringClick = () => {
@@ -32,7 +33,16 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
     };
 
     const onDeleteConnectionStringClick = () => {
+        setConfirmingDelete(true);
+    };
+
+    const onDeleteConnectionStringConfirm = () => {
+        setConfirmingDelete(false);
         onDeleteConnectionString(connectionString);
+    };
+
+    const onDeleteConnectionStringCancel = () => {
+        setConfirmingDelete(false);
     };
 
     const onSelectConnectionStringClick = () => {
@@ -78,6 +88,12 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
                     sharedAccessKeyName={sharedAccessKeyName}
                 />
             </div>
+            <ConnectionStringDelete
+                connectionString={connectionString}
+                hidden={!confirmingDelete}
+                onDeleteCancel={onDeleteConnectionStringCancel}
+                onDeleteConfirm={onDeleteConnectionStringConfirm}
+            />
         </div>
     );
 };
