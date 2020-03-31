@@ -10,6 +10,8 @@ import { upsertConnectionStringAction, deleteConnectionStringAction, setConnecti
 import { setActiveAzureResourceByConnectionStringAction } from '../../azureResource/actions';
 import { ROUTE_PARTS } from '../../constants/routes';
 import { ConnectionStringsView } from './connectionStringsView';
+import { formatConnectionStrings } from '../../shared/utils/hubConnectionStringHelper';
+import { getConnectionInfoFromConnectionString } from '../../api/shared/utils';
 
 export const ConnectionStringsViewContainer: React.FC<RouteComponentProps> = props => {
     const connectionStrings = useSelector((state: StateInterface) => state.connectionStringsState.connectionStrings);
@@ -24,16 +26,15 @@ export const ConnectionStringsViewContainer: React.FC<RouteComponentProps> = pro
     };
 
     const onSelectConnectionString = (connectionString: string, hostName: string) => {
-        dispatch(setConnectionStringsAction());
+        const updatedConnectionStrings = formatConnectionStrings(connectionStrings, connectionString);
 
+        dispatch(setConnectionStringsAction(updatedConnectionStrings));
         dispatch(setActiveAzureResourceByConnectionStringAction({
             connectionString,
             hostName
         }));
 
-
-
-        props.history.push(`${ROUTE_PARTS.RESOURCE}/${hostName}/${ROUTE_PARTS.DEVICES}`);
+        props.history.push(`/${ROUTE_PARTS.RESOURCE}/${hostName}/${ROUTE_PARTS.DEVICES}`);
     };
 
     return (

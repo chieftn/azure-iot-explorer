@@ -39,7 +39,7 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
             <div className="commands">
                 <div className="name">
                     <ActionButton
-                        text={hostName}
+                        text={resourceName}
                         ariaLabel={'aria label'}
                         onClick={onSelectConnectionStringClick}
                     />

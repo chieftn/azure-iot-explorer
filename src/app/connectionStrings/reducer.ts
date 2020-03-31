@@ -30,7 +30,7 @@ const reducer = reducerWithInitialState<ConnectionStringsStateInterface>(connect
         const { newConnectionString, connectionString } = payload;
         const updatedState = {...state};
         if (connectionString) {
-            updatedState.connectionStrings = state.connectionStrings.map(s => connectionString ? newConnectionString : s);
+            updatedState.connectionStrings = state.connectionStrings.map(s => s === connectionString ? newConnectionString : s);
         } else {
             updatedState.connectionStrings = updatedState.connectionStrings.filter(s => s !== connectionString);
             updatedState.connectionStrings.push(newConnectionString);
