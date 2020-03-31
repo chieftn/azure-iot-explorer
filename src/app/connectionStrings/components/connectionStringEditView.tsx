@@ -6,9 +6,11 @@ import * as React from 'react';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
+import { ConnectionStringProperties } from './connectionStringProperties';
 import { getConnectionInfoFromConnectionString } from '../../api/shared/utils';
 import { generateConnectionStringValidationError } from '../../shared/utils/hubConnectionStringHelper';
 import { getResourceNameFromHostName } from '../../api/shared/hostNameUtils';
+import { IoTHubConnectionSettings } from '../../api/services/devicesService';
 import { useLocalizationContext } from '../../shared/contexts/localizationContext';
 import { ResourceKeys } from '../../../localization/resourceKeys';
 import './connectionStringEditView.scss';
@@ -26,13 +28,18 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
     const {connectionStringUnderEdit, connectionStrings, onDismiss, onCommit} = props;
     const [connectionString, setConnectionString] = React.useState<string>(connectionStringUnderEdit);
     const [connectionStringValidationKey, setConnectionStringValidationKey] = React.useState<string>(undefined);
-    const [connectionSettings, setConnectionSettings] = React.useState(undefined);
-    const [hostName, setHostName] = React.useState<string>(undefined);
+    const [connectionSettings, setConnectionSettings] = React.useState<IoTHubConnectionSettings>(undefined);
     const { t } = useLocalizationContext();
+
+    React.useEffect(() => {
+        if (connectionString) {
+            validateConnectionString(connectionString);
+        }
+    }, []); // tslint:disable-line:align
 
     const onConnectionStringChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
          setConnectionString(newValue);
-         validateConnectionString(newValue);
+         validateConnectionString(newValue, true);
     };
 
     const onCommitClick = () => {
@@ -43,21 +50,19 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
         onDismiss();
     };
 
-    const validateConnectionString = (updatedConnectionString: string) => {
+    const validateConnectionString = (updatedConnectionString: string, duplicateValidation = false) => {
         let validationKey = generateConnectionStringValidationError(updatedConnectionString) || '';
-        validationKey = connectionStrings.indexOf(updatedConnectionString) >= 0 ?
-            ResourceKeys.connectionStrings.editConnection.validations.duplicate :
-            validationKey;
-
-        setConnectionStringValidationKey(validationKey);
-
         if (!validationKey) {
             const extractedConnectionSettings = getConnectionInfoFromConnectionString(updatedConnectionString);
-            const extractedHostName = getResourceNameFromHostName(extractedConnectionSettings.hostName);
-
             setConnectionSettings(extractedConnectionSettings);
-            setHostName(extractedHostName);
         }
+
+        if (duplicateValidation) {
+            validationKey = connectionStrings.indexOf(updatedConnectionString) >= 0 ?
+            ResourceKeys.connectionStrings.editConnection.validations.duplicate : validationKey;
+        }
+
+        setConnectionStringValidationKey(validationKey);
     };
 
     const renderHeader = (): JSX.Element => {
@@ -119,6 +124,16 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
                     required={true}
                     placeholder={t(ResourceKeys.connectionStrings.editConnection.editField.placeholder)}
                 />
+                {!connectionStringValidationKey && connectionSettings &&
+                    <div className="details">
+                        <ConnectionStringProperties
+                            connectionString={connectionString}
+                            hostName={connectionSettings.hostName}
+                            sharedAccessKey={connectionSettings.sharedAccessKey}
+                            sharedAccessKeyName={connectionSettings.sharedAccessKeyName}
+                        />
+                    </div>
+                }
             </div>
         </Panel>
     );
