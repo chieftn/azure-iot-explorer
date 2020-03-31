@@ -5,11 +5,15 @@
 import * as React from 'react';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import { Button, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
+import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
+import { getConnectionInfoFromConnectionString } from '../../api/shared/utils';
+import { generateConnectionStringValidationError } from '../../shared/utils/hubConnectionStringHelper';
+import { getResourceNameFromHostName } from '../../api/shared/hostNameUtils';
 import './connectionStringEditView.scss';
 
+const LINES_FOR_CONNECTION = 5;
+
 export interface ConnectionStringEditViewProps {
-    isOpen: boolean;
     connectionStringUnderEdit?: string;
     connectionStrings: string[];
     onDismiss(): void;
@@ -17,11 +21,21 @@ export interface ConnectionStringEditViewProps {
 }
 
 export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> = props => {
-    const { isOpen, connectionStringUnderEdit, onDismiss, onCommit} = props;
+    const {connectionStringUnderEdit, onDismiss, onCommit} = props;
     const [connectionString, setConnectionString] = React.useState<string>(connectionStringUnderEdit);
+    const [connectionStringValidationKey, setConnectionStringValidationKey] = React.useState<string>(undefined);
+    const [connectionSettings, setConnectionSettings] = React.useState(undefined);
+    const [hostName, setHostName] = React.useState<string>(undefined);
+
+    React.useEffect(() => {
+        if (connectionStringUnderEdit) {
+            validateConnectionString(connectionStringUnderEdit);
+        }
+    }, []); // tslint:disable-line:align
 
     const onConnectionStringChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
          setConnectionString(newValue);
+         validateConnectionString(newValue);
     };
 
     const onCommitClick = () => {
@@ -32,8 +46,26 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
         onDismiss();
     };
 
+    const validateConnectionString = (updatedConnectionString: string) => {
+        const validation = generateConnectionStringValidationError(updatedConnectionString) || '';
+        // duplicate check here.
+        setConnectionStringValidationKey(validation);
+
+        if (!validation) {
+            const extractedConnectionSettings = getConnectionInfoFromConnectionString(updatedConnectionString);
+            const extractedHostName = getResourceNameFromHostName(extractedConnectionSettings.hostName);
+
+            setConnectionSettings(extractedConnectionSettings);
+            setHostName(extractedHostName);
+        }
+    };
+
     const renderHeader = (): JSX.Element => {
-        return <div>Header</div>;
+        return (
+            <h2 className="connection-string-edit-header">
+                {connectionStringUnderEdit ? 'Edit Connection String' : 'Add Connection String'}
+            </h2>
+        );
     };
 
     const renderFooter = (): JSX.Element => {
@@ -43,8 +75,9 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
                    text="OK"
                    ariaLabel="OK"
                    onClick={onCommitClick}
+                   disabled={connectionStringValidationKey !== ''}
                 />
-                <Button
+                <DefaultButton
                    text="Cancel"
                    ariaLabel="Cancel"
                    onClick={onDismissClick}
@@ -64,15 +97,18 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
             onDismiss={onDismiss}
             closeButtonAriaLabel={'localizeme'}
         >
-            <div>
+            <div className="connection-string-edit-body">
                 <TextField
                     ariaLabel="connection string aria label"
                     label="Connection String"
                     onChange={onConnectionStringChange}
                     multiline={true}
+                    rows={LINES_FOR_CONNECTION}
+                    errorMessage={connectionStringValidationKey}
+                    value={connectionString}
+                    required={true}
                 />
             </div>
         </Panel>
-
     );
 };

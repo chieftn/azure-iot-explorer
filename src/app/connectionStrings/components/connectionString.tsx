@@ -13,11 +13,11 @@ import './connectionString.scss';
 export interface ConnectionStringProps {
     connectionString: string;
     onEditConnectionString(connectionString: string): void;
-    onRemoveConnectionString(connectionString: string): void;
+    onDeleteConnectionString(connectionString: string): void;
 }
 
 export const ConnectionString: React.FC<ConnectionStringProps> = props => {
-    const { connectionString, onEditConnectionString, onRemoveConnectionString } = props;
+    const { connectionString, onEditConnectionString, onDeleteConnectionString } = props;
     const connectionSettings = getConnectionInfoFromConnectionString(connectionString);
     const { hostName, sharedAccessKey, sharedAccessKeyName } = connectionSettings;
     const resourceName = getResourceNameFromHostName(hostName);
@@ -26,8 +26,8 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
         onEditConnectionString(connectionString);
     };
 
-    const onRemoveConnectionStringClick = () => {
-        onRemoveConnectionString(connectionString);
+    const onDeleteConnectionStringClick = () => {
+        onDeleteConnectionString(connectionString);
     };
 
     return (
@@ -53,7 +53,7 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
                         }}
                         text="Remove Connection From List"
                         ariaLabel="Remove Connection From List"
-                        onClick={onRemoveConnectionStringClick}
+                        onClick={onDeleteConnectionStringClick}
                     />
                 </div>
             </div>

@@ -11,28 +11,29 @@ import './connectionStringsView.scss';
 
 export interface ConnectionStringsViewProps {
     connectionStrings: string[];
-    onAddConnectionString(connectionString: string): void;
-    onRemoveConnectionString(connectionString: string): void;
+    onDeleteConnectionString(connectionString: string): void;
+    onUpsertConnectionString(newConnectionString: string, connectionString: string): void;
 }
 
 export const ConnectionStringsView: React.FC<ConnectionStringsViewProps> = props => {
     const [ connectionStringUnderEdit, setConnectionStringUnderEdit ] = React.useState<string>(undefined);
-    const { connectionStrings } = props;
+    const { connectionStrings, onDeleteConnectionString, onUpsertConnectionString } = props;
 
-    const onAddConnectionString = () => {
+    const onAddConnectionStringClick = () => {
         setConnectionStringUnderEdit('');
     };
 
-    const onEditConnectionString = (connectionString: string) => {
+    const onDeleteConnectionStringClick = (connectionString: string) => {
+        onDeleteConnectionString(connectionString);
+        setConnectionStringUnderEdit(undefined);
+    };
+
+    const onEditConnectionStringClick = (connectionString: string) => {
         setConnectionStringUnderEdit(connectionString);
     };
 
-    const onRemoveConnectionString = (connectionString: string) => {
-        // tslint:disable-next-line:no-console
-        console.log('here we are');
-    };
-
-    const onConnectionStringEditCommit = (newConnectionString: string) => {
+    const onConnectionStringEditCommit = (connectionString: string) => {
+        onUpsertConnectionString(connectionString, connectionStringUnderEdit);
         setConnectionStringUnderEdit(undefined);
     };
 
@@ -48,7 +49,7 @@ export const ConnectionStringsView: React.FC<ConnectionStringsViewProps> = props
                         {
                             iconProps: { iconName: 'Add' },
                             key: 'add',
-                            onClick: onAddConnectionString,
+                            onClick: onAddConnectionStringClick,
                             text: 'Add Connection'
                         }
                     ]}
@@ -60,8 +61,8 @@ export const ConnectionStringsView: React.FC<ConnectionStringsViewProps> = props
                         <ConnectionString
                             key={connectionString}
                             connectionString={connectionString}
-                            onEditConnectionString={onEditConnectionString}
-                            onRemoveConnectionString={onRemoveConnectionString}
+                            onEditConnectionString={onEditConnectionStringClick}
+                            onDeleteConnectionString={onDeleteConnectionStringClick}
                         />
                     )}
                 </div>
@@ -70,7 +71,6 @@ export const ConnectionStringsView: React.FC<ConnectionStringsViewProps> = props
                 <ConnectionStringEditView
                     connectionStringUnderEdit={connectionStringUnderEdit}
                     connectionStrings={connectionStrings}
-                    isOpen={connectionStringUnderEdit !== undefined}
                     onDismiss={onConnectionStringEditDismiss}
                     onCommit={onConnectionStringEditCommit}
                 />

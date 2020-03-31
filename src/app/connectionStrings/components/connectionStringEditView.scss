@@ -3,19 +3,20 @@
  * Licensed under the MIT License
  **********************************************************/
  .connection-string-edit-header {
+    margin-left: 20px;
+    margin-right: 20px;
+ }
 
-
+ .connection-string-edit-body {
+    margin-right: 20px;
+    margin-left: 20px;
  }
 
  .connection-string-edit-footer {
     display: flex;
-    padding: {
-        left: 32px;
-        bottom: 32px;
-        right: 32px;
-        top: 0px;
-    }
-    margin-bottom: 0px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
     button {
         margin-right: 10px;
     }
