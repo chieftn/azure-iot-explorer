@@ -4,11 +4,14 @@
  **********************************************************/
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
 import { StateInterface } from '../../shared/redux/state';
-import { upsertConnectionStringAction, deleteConnectionStringAction } from '../actions';
+import { upsertConnectionStringAction, deleteConnectionStringAction, setConnectionStringsAction } from '../actions';
+import { setActiveAzureResourceByConnectionStringAction } from '../../azureResource/actions';
+import { ROUTE_PARTS } from '../../constants/routes';
 import { ConnectionStringsView } from './connectionStringsView';
 
-export const ConnectionStringsViewContainer: React.FC = () => {
+export const ConnectionStringsViewContainer: React.FC<RouteComponentProps> = props => {
     const connectionStrings = useSelector((state: StateInterface) => state.connectionStringsState.connectionStrings);
     const dispatch = useDispatch();
 
@@ -20,10 +23,24 @@ export const ConnectionStringsViewContainer: React.FC = () => {
         dispatch(deleteConnectionStringAction(connectionString));
     };
 
+    const onSelectConnectionString = (connectionString: string, hostName: string) => {
+        dispatch(setConnectionStringsAction());
+
+        dispatch(setActiveAzureResourceByConnectionStringAction({
+            connectionString,
+            hostName
+        }));
+
+
+
+        props.history.push(`${ROUTE_PARTS.RESOURCE}/${hostName}/${ROUTE_PARTS.DEVICES}`);
+    };
+
     return (
         <ConnectionStringsView
             onUpsertConnectionString={onUpsertConnectionString}
             onDeleteConnectionString={onDeleteConnectionString}
+            onSelectConnectionString={onSelectConnectionString}
             connectionStrings={connectionStrings}
         />
     );

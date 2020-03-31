@@ -3,8 +3,7 @@
  * Licensed under the MIT License
  **********************************************************/
 import * as React from 'react';
-import { IconButton } from 'office-ui-fabric-react/lib/Button';
-import { NavLink } from 'react-router-dom';
+import { IconButton, ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { getConnectionInfoFromConnectionString } from '../../api/shared/utils';
 import { getResourceNameFromHostName } from '../../api/shared/hostNameUtils';
 import { ConnectionStringProperties } from './connectionStringProperties';
@@ -14,10 +13,11 @@ export interface ConnectionStringProps {
     connectionString: string;
     onEditConnectionString(connectionString: string): void;
     onDeleteConnectionString(connectionString: string): void;
+    onSelectConnectionString(connectionString: string, hostName: string): void;
 }
 
 export const ConnectionString: React.FC<ConnectionStringProps> = props => {
-    const { connectionString, onEditConnectionString, onDeleteConnectionString } = props;
+    const { connectionString, onEditConnectionString, onDeleteConnectionString, onSelectConnectionString } = props;
     const connectionSettings = getConnectionInfoFromConnectionString(connectionString);
     const { hostName, sharedAccessKey, sharedAccessKeyName } = connectionSettings;
     const resourceName = getResourceNameFromHostName(hostName);
@@ -30,13 +30,19 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
         onDeleteConnectionString(connectionString);
     };
 
+    const onSelectConnectionStringClick = () => {
+        onSelectConnectionString(connectionString, hostName);
+    };
+
     return (
         <div className="connection-string">
             <div className="commands">
                 <div className="name">
-                    <NavLink to={`/resources/${hostName}/devices`}>
-                        {resourceName}
-                    </NavLink>
+                    <ActionButton
+                        text={hostName}
+                        ariaLabel={'aria label'}
+                        onClick={onSelectConnectionStringClick}
+                    />
                 </div>
                 <div className="actions">
                     <IconButton

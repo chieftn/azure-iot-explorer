@@ -13,11 +13,12 @@ export interface ConnectionStringsViewProps {
     connectionStrings: string[];
     onDeleteConnectionString(connectionString: string): void;
     onUpsertConnectionString(newConnectionString: string, connectionString: string): void;
+    onSelectConnectionString(connectionString: string, hostName: string): void;
 }
 
 export const ConnectionStringsView: React.FC<ConnectionStringsViewProps> = props => {
     const [ connectionStringUnderEdit, setConnectionStringUnderEdit ] = React.useState<string>(undefined);
-    const { connectionStrings, onDeleteConnectionString, onUpsertConnectionString } = props;
+    const { connectionStrings, onDeleteConnectionString, onUpsertConnectionString, onSelectConnectionString } = props;
 
     const onAddConnectionStringClick = () => {
         setConnectionStringUnderEdit('');
@@ -63,6 +64,7 @@ export const ConnectionStringsView: React.FC<ConnectionStringsViewProps> = props
                             connectionString={connectionString}
                             onEditConnectionString={onEditConnectionStringClick}
                             onDeleteConnectionString={onDeleteConnectionStringClick}
+                            onSelectConnectionString={onSelectConnectionString}
                         />
                     )}
                 </div>
