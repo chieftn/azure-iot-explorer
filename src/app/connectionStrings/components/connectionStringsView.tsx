@@ -6,6 +6,8 @@ import * as React from 'react';
 import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
 import { ConnectionString  } from './connectionString';
 import { ConnectionStringEditView } from './connectionStringEditView';
+import { useLocalizationContext } from '../../shared/contexts/localizationContext';
+import { ResourceKeys } from '../../../localization/resourceKeys';
 import '../../css/_layouts.scss';
 import './connectionStringsView.scss';
 
@@ -19,6 +21,7 @@ export interface ConnectionStringsViewProps {
 export const ConnectionStringsView: React.FC<ConnectionStringsViewProps> = props => {
     const [ connectionStringUnderEdit, setConnectionStringUnderEdit ] = React.useState<string>(undefined);
     const { connectionStrings, onDeleteConnectionString, onUpsertConnectionString, onSelectConnectionString } = props;
+    const { t } = useLocalizationContext();
 
     const onAddConnectionStringClick = () => {
         setConnectionStringUnderEdit('');
@@ -48,10 +51,11 @@ export const ConnectionStringsView: React.FC<ConnectionStringsViewProps> = props
                 <CommandBar
                     items={[
                         {
+                            ariaLabel: t(ResourceKeys.connectionStrings.addConnectionCommand.ariaLabel),
                             iconProps: { iconName: 'Add' },
                             key: 'add',
                             onClick: onAddConnectionStringClick,
-                            text: 'Add Connection'
+                            text: t(ResourceKeys.connectionStrings.addConnectionCommand.label)
                         }
                     ]}
                 />

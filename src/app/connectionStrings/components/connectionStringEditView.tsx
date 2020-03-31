@@ -9,6 +9,8 @@ import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button'
 import { getConnectionInfoFromConnectionString } from '../../api/shared/utils';
 import { generateConnectionStringValidationError } from '../../shared/utils/hubConnectionStringHelper';
 import { getResourceNameFromHostName } from '../../api/shared/hostNameUtils';
+import { useLocalizationContext } from '../../shared/contexts/localizationContext';
+import { ResourceKeys } from '../../../localization/resourceKeys';
 import './connectionStringEditView.scss';
 
 const LINES_FOR_CONNECTION = 5;
@@ -26,6 +28,7 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
     const [connectionStringValidationKey, setConnectionStringValidationKey] = React.useState<string>(undefined);
     const [connectionSettings, setConnectionSettings] = React.useState(undefined);
     const [hostName, setHostName] = React.useState<string>(undefined);
+    const { t } = useLocalizationContext();
 
     React.useEffect(() => {
         if (connectionStringUnderEdit) {
@@ -63,7 +66,10 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
     const renderHeader = (): JSX.Element => {
         return (
             <h2 className="connection-string-edit-header">
-                {connectionStringUnderEdit ? 'Edit Connection String' : 'Add Connection String'}
+                {connectionStringUnderEdit ?
+                    t(ResourceKeys.connectionStrings.editConnection.title.edit) :
+                    t(ResourceKeys.connectionStrings.editConnection.title.add)
+                }
             </h2>
         );
     };
@@ -72,14 +78,17 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
         return (
             <div className="connection-string-edit-footer">
                 <PrimaryButton
-                   text="OK"
-                   ariaLabel="OK"
+                   text={t(ResourceKeys.connectionStrings.editConnection.save.label)}
+                   ariaLabel={t(ResourceKeys.connectionStrings.editConnection.save.ariaLabel)}
                    onClick={onCommitClick}
                    disabled={connectionStringValidationKey !== ''}
                 />
                 <DefaultButton
-                   text="Cancel"
-                   ariaLabel="Cancel"
+                   text={t(ResourceKeys.connectionStrings.editConnection.cancel.label)}
+                   ariaLabel={connectionStringUnderEdit ?
+                        t(ResourceKeys.connectionStrings.editConnection.cancel.ariaLabel.edit) :
+                        t(ResourceKeys.connectionStrings.editConnection.cancel.ariaLabel.add)
+                    }
                    onClick={onDismissClick}
                 />
             </div>
@@ -95,12 +104,16 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
             onRenderHeader={renderHeader}
             onRenderFooter={renderFooter}
             onDismiss={onDismiss}
-            closeButtonAriaLabel={'localizeme'}
+            closeButtonAriaLabel={
+                connectionStringUnderEdit ?
+                    t(ResourceKeys.connectionStrings.editConnection.cancel.ariaLabel.edit) :
+                    t(ResourceKeys.connectionStrings.editConnection.cancel.ariaLabel.add)
+            }
         >
             <div className="connection-string-edit-body">
                 <TextField
-                    ariaLabel="connection string aria label"
-                    label="Connection String"
+                    ariaLabel={t(ResourceKeys.connectionStrings.editConnection.editField.ariaLabel)}
+                    label={t(ResourceKeys.connectionStrings.editConnection.editField.label)}
                     onChange={onConnectionStringChange}
                     multiline={true}
                     rows={LINES_FOR_CONNECTION}

@@ -139,6 +139,62 @@
         },
         "value": "Value"
     },
+    "connectionStrings": {
+        "addConnectionCommand": {
+            "label": "Add Connection",
+            "ariaLabel": "Add connection string"
+        },
+        "deleteConnectionCommand": {
+            "label": "Delete Connection",
+            "ariaLabel": "Delete connection string {{connectionString}}"
+        },
+        "editConnectionCommand": {
+            "label": "Edit Connection",
+            "ariaLabel": "Edit connection string {{connectionString}}"
+        },
+        "copyConnectionCommand": {
+            "label": "Copy Connection",
+            "ariaLabel": "Copy connection string {{connectionString}}"
+        },
+        "visitConnectionCommand": {
+            "ariaLabel": "View resource: {{connection string}}"
+        },
+        "editConnection": {
+            "save": {
+                "label": "Save",
+                "ariaLabel": "Save connection string"
+            },
+            "cancel": {
+                "label": "Cancel",
+                "ariaLabel": {
+                    "add": "Cancel Add of Connection String",
+                    "edit":"Cancel Edit of Connection String"
+                }
+            },
+            "title": {
+                "add": "Add Connection String",
+                "edit": "Edit Connection String"
+            },
+            "editField": {
+                "label": "Connection String",
+                "ariaLabel": "Connection String"
+            }
+        },
+        "properties": {
+            "hostName": {
+                "label": "Host Name",
+                "ariaLabel": "Host name for {{connection string}}"
+            },
+            "sharedAccessPolicyName": {
+                "label": "Shared Access Policy Name",
+                "ariaLabel": "Shared Access Policy Name for {{connection string}}"
+            },
+            "sharedAccessPolicyKey": {
+                "label": "Shared Access Policy Key",
+                "ariaLabel": "Shared Access Policy Key for {{connection string}}"
+            }
+        }
+    },
     "connectivityPane": {
         "header": "App configurations",
         "connectionStringComboBox": {

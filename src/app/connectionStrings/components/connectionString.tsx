@@ -7,6 +7,9 @@ import { IconButton, ActionButton } from 'office-ui-fabric-react/lib/Button';
 import { getConnectionInfoFromConnectionString } from '../../api/shared/utils';
 import { getResourceNameFromHostName } from '../../api/shared/hostNameUtils';
 import { ConnectionStringProperties } from './connectionStringProperties';
+import { useLocalizationContext } from '../../shared/contexts/localizationContext';
+import { ResourceKeys } from '../../../localization/resourceKeys';
+
 import './connectionString.scss';
 
 export interface ConnectionStringProps {
@@ -21,6 +24,7 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
     const connectionSettings = getConnectionInfoFromConnectionString(connectionString);
     const { hostName, sharedAccessKey, sharedAccessKeyName } = connectionSettings;
     const resourceName = getResourceNameFromHostName(hostName);
+    const { t } = useLocalizationContext();
 
     const onEditConnectionStringClick = () => {
         onEditConnectionString(connectionString);
@@ -40,7 +44,7 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
                 <div className="name">
                     <ActionButton
                         text={resourceName}
-                        ariaLabel={'aria label'}
+                        ariaLabel={t(ResourceKeys.connectionStrings.visitConnectionCommand.ariaLabel, {connectionString})}
                         onClick={onSelectConnectionStringClick}
                     />
                 </div>
@@ -49,16 +53,16 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
                         iconProps={{
                             iconName: 'EditSolid12'
                         }}
-                        text="Edit Connection String"
-                        ariaLabel="Edit Connection From List"
+                        text={t(ResourceKeys.connectionStrings.editConnectionCommand.label)}
+                        ariaLabel={t(ResourceKeys.connectionStrings.editConnectionCommand.ariaLabel, {connectionString})}
                         onClick={onEditConnectionStringClick}
                     />
                     <IconButton
                         iconProps={{
                             iconName: 'Delete'
                         }}
-                        text="Remove Connection From List"
-                        ariaLabel="Remove Connection From List"
+                        text={t(ResourceKeys.connectionStrings.deleteConnectionCommand.label)}
+                        ariaLabel={t(ResourceKeys.connectionStrings.deleteConnectionCommand.ariaLabel, {connectionString})}
                         onClick={onDeleteConnectionStringClick}
                     />
                 </div>
@@ -66,6 +70,7 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
 
             <div className="properties">
                 <ConnectionStringProperties
+                    connectionString={connectionString}
                     hostName={hostName}
                     sharedAccessKey={sharedAccessKey}
                     sharedAccessKeyName={sharedAccessKeyName}
