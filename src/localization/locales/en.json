@@ -178,6 +178,9 @@
             "editField": {
                 "label": "Connection String",
                 "ariaLabel": "Connection String"
+            },
+            "validations": {
+                "duplicate": "The specified connection string is already listed."
             }
         },
         "properties": {

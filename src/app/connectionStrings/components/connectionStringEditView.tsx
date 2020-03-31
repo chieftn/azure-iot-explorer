@@ -23,18 +23,18 @@ export interface ConnectionStringEditViewProps {
 }
 
 export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> = props => {
-    const {connectionStringUnderEdit, onDismiss, onCommit} = props;
+    const {connectionStringUnderEdit, connectionStrings, onDismiss, onCommit} = props;
     const [connectionString, setConnectionString] = React.useState<string>(connectionStringUnderEdit);
     const [connectionStringValidationKey, setConnectionStringValidationKey] = React.useState<string>(undefined);
     const [connectionSettings, setConnectionSettings] = React.useState(undefined);
     const [hostName, setHostName] = React.useState<string>(undefined);
     const { t } = useLocalizationContext();
 
-    React.useEffect(() => {
-        if (connectionStringUnderEdit) {
-            validateConnectionString(connectionStringUnderEdit);
-        }
-    }, []); // tslint:disable-line:align
+    // React.useEffect(() => {
+    //     if (connectionStringUnderEdit) {
+    //         validateConnectionString(connectionStringUnderEdit);
+    //     }
+    // }, []); // tslint:disable-line:align
 
     const onConnectionStringChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
          setConnectionString(newValue);
@@ -50,11 +50,14 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
     };
 
     const validateConnectionString = (updatedConnectionString: string) => {
-        const validation = generateConnectionStringValidationError(updatedConnectionString) || '';
-        // duplicate check here.
-        setConnectionStringValidationKey(validation);
+        let validationKey = generateConnectionStringValidationError(updatedConnectionString) || '';
+        validationKey = connectionStrings.indexOf(updatedConnectionString) >= 0 ?
+            ResourceKeys.connectionStrings.editConnection.validations.duplicate :
+            validationKey;
 
-        if (!validation) {
+        setConnectionStringValidationKey(validationKey);
+
+        if (!validationKey) {
             const extractedConnectionSettings = getConnectionInfoFromConnectionString(updatedConnectionString);
             const extractedHostName = getResourceNameFromHostName(extractedConnectionSettings.hostName);
 
@@ -117,7 +120,7 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
                     onChange={onConnectionStringChange}
                     multiline={true}
                     rows={LINES_FOR_CONNECTION}
-                    errorMessage={connectionStringValidationKey}
+                    errorMessage={t(connectionStringValidationKey)}
                     value={connectionString}
                     required={true}
                 />

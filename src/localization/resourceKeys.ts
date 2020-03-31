@@ -140,6 +140,9 @@ export class ResourceKeys {
             add : "connectionStrings.editConnection.title.add",
             edit : "connectionStrings.editConnection.title.edit",
          },
+         validations : {
+            duplicate : "connectionStrings.editConnection.validations.duplicate",
+         },
       },
       editConnectionCommand : {
          ariaLabel : "connectionStrings.editConnectionCommand.ariaLabel",
