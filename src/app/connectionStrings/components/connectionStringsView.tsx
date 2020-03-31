@@ -8,6 +8,7 @@ import { ConnectionString  } from './connectionString';
 import { ConnectionStringEditView } from './connectionStringEditView';
 import { useLocalizationContext } from '../../shared/contexts/localizationContext';
 import { ResourceKeys } from '../../../localization/resourceKeys';
+import { CONNECTION_STRING_LIST_MAX_LENGTH } from '../../constants/browserStorage';
 import '../../css/_layouts.scss';
 import './connectionStringsView.scss';
 
@@ -52,6 +53,7 @@ export const ConnectionStringsView: React.FC<ConnectionStringsViewProps> = props
                     items={[
                         {
                             ariaLabel: t(ResourceKeys.connectionStrings.addConnectionCommand.ariaLabel),
+                            disabled: connectionStrings.length >= CONNECTION_STRING_LIST_MAX_LENGTH,
                             iconProps: { iconName: 'Add' },
                             key: 'add',
                             onClick: onAddConnectionStringClick,

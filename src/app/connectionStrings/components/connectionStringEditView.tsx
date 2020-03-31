@@ -30,12 +30,6 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
     const [hostName, setHostName] = React.useState<string>(undefined);
     const { t } = useLocalizationContext();
 
-    // React.useEffect(() => {
-    //     if (connectionStringUnderEdit) {
-    //         validateConnectionString(connectionStringUnderEdit);
-    //     }
-    // }, []); // tslint:disable-line:align
-
     const onConnectionStringChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
          setConnectionString(newValue);
          validateConnectionString(newValue);
