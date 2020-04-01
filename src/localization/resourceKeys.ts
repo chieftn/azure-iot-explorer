@@ -163,6 +163,10 @@ export class ResourceKeys {
          label : "connectionStrings.editConnectionCommand.label",
       },
       properties : {
+         connectionString : {
+            ariaLabel : "connectionStrings.properties.connectionString.ariaLabel",
+            label : "connectionStrings.properties.connectionString.label",
+         },
          hostName : {
             ariaLabel : "connectionStrings.properties.hostName.ariaLabel",
             label : "connectionStrings.properties.hostName.label",

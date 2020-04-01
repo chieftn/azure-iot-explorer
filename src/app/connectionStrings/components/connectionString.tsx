@@ -11,6 +11,7 @@ import { ConnectionStringProperties } from './connectionStringProperties';
 import { useLocalizationContext } from '../../shared/contexts/localizationContext';
 import { ResourceKeys } from '../../../localization/resourceKeys';
 import { ConnectionStringDelete } from './connectionStringDelete';
+import MaskedCopyableTextFieldContainer from '../../shared/components/maskedCopyableTextFieldContainer';
 import './connectionString.scss';
 
 export interface ConnectionStringProps {
@@ -66,7 +67,7 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
                         iconProps={{
                             iconName: 'EditSolid12'
                         }}
-                        text={t(ResourceKeys.connectionStrings.editConnectionCommand.label)}
+                        title={t(ResourceKeys.connectionStrings.editConnectionCommand.label)}
                         ariaLabel={t(ResourceKeys.connectionStrings.editConnectionCommand.ariaLabel, {connectionString})}
                         onClick={onEditConnectionStringClick}
                     />
@@ -74,7 +75,7 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
                         iconProps={{
                             iconName: 'Delete'
                         }}
-                        text={t(ResourceKeys.connectionStrings.deleteConnectionCommand.label)}
+                        title={t(ResourceKeys.connectionStrings.deleteConnectionCommand.label)}
                         ariaLabel={t(ResourceKeys.connectionStrings.deleteConnectionCommand.ariaLabel, {connectionString})}
                         onClick={onDeleteConnectionStringClick}
                     />
@@ -87,6 +88,13 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
                     hostName={hostName}
                     sharedAccessKey={sharedAccessKey}
                     sharedAccessKeyName={sharedAccessKeyName}
+                />
+                <MaskedCopyableTextFieldContainer
+                    ariaLabel={t(ResourceKeys.connectionStrings.properties.connectionString.ariaLabel)}
+                    allowMask={false}
+                    label={t(ResourceKeys.connectionStrings.properties.connectionString.label)}
+                    value={connectionString}
+                    readOnly={true}
                 />
             </div>
             <ConnectionStringDelete

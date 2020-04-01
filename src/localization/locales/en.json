@@ -209,6 +209,10 @@
             "sharedAccessPolicyKey": {
                 "label": "Shared Access Policy Key",
                 "ariaLabel": "Shared Access Policy Key for {{connection string}}"
+            },
+            "connectionString": {
+                "label": "Connection String",
+                "ariaLabel": "Connection String"
             }
         }
     },
