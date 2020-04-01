@@ -11,7 +11,6 @@ import { setActiveAzureResourceByConnectionStringAction } from '../../azureResou
 import { ROUTE_PARTS } from '../../constants/routes';
 import { ConnectionStringsView } from './connectionStringsView';
 import { formatConnectionStrings } from '../../shared/utils/hubConnectionStringHelper';
-import { getConnectionInfoFromConnectionString } from '../../api/shared/utils';
 
 export const ConnectionStringsViewContainer: React.FC<RouteComponentProps> = props => {
     const connectionStrings = useSelector((state: StateInterface) => state.connectionStringsState.connectionStrings);
