@@ -28,11 +28,6 @@ export const ConnectionStringsView: React.FC<ConnectionStringsViewProps> = props
         setConnectionStringUnderEdit('');
     };
 
-    const onDeleteConnectionStringClick = (connectionString: string) => {
-        onDeleteConnectionString(connectionString);
-        setConnectionStringUnderEdit(undefined);
-    };
-
     const onEditConnectionStringClick = (connectionString: string) => {
         setConnectionStringUnderEdit(connectionString);
     };
@@ -69,7 +64,7 @@ export const ConnectionStringsView: React.FC<ConnectionStringsViewProps> = props
                             key={connectionString}
                             connectionString={connectionString}
                             onEditConnectionString={onEditConnectionStringClick}
-                            onDeleteConnectionString={onDeleteConnectionStringClick}
+                            onDeleteConnectionString={onDeleteConnectionString}
                             onSelectConnectionString={onSelectConnectionString}
                         />
                     )}
