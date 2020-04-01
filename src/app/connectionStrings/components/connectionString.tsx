@@ -56,6 +56,7 @@ export const ConnectionString: React.FC<ConnectionStringProps> = props => {
                     <Link
                         ariaLabel={t(ResourceKeys.connectionStrings.visitConnectionCommand.ariaLabel, {connectionString})}
                         onClick={onSelectConnectionStringClick}
+                        title={resourceName}
                     >
                         {resourceName}
                     </Link>
