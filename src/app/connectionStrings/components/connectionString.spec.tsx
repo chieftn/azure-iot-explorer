@@ -4,7 +4,6 @@
  **********************************************************/
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { act } from 'react-dom/test-utils';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { IconButton } from 'office-ui-fabric-react/lib/Button';
 import { ConnectionString, ConnectionStringProps } from './connectionString';
