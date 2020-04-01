@@ -15,7 +15,7 @@ import { useLocalizationContext } from '../../shared/contexts/localizationContex
 import { ResourceKeys } from '../../../localization/resourceKeys';
 import './connectionStringEditView.scss';
 
-const LINES_FOR_CONNECTION = 5;
+const LINES_FOR_CONNECTION = 8;
 
 export interface ConnectionStringEditViewProps {
     connectionStringUnderEdit?: string;
@@ -39,7 +39,7 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
 
     const onConnectionStringChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
          setConnectionString(newValue);
-         validateConnectionString(newValue, true);
+         validateConnectionString(newValue);
     };
 
     const onCommitClick = () => {
@@ -50,17 +50,18 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
         onDismiss();
     };
 
-    const validateConnectionString = (updatedConnectionString: string, duplicateValidation = false) => {
+    const validateConnectionString = (updatedConnectionString: string) => {
         let validationKey = generateConnectionStringValidationError(updatedConnectionString) || '';
+
         if (!validationKey) {
             const extractedConnectionSettings = getConnectionInfoFromConnectionString(updatedConnectionString);
             setConnectionSettings(extractedConnectionSettings);
         }
 
-        if (duplicateValidation) {
-            validationKey = connectionStrings.indexOf(updatedConnectionString) >= 0 ?
-            ResourceKeys.connectionStrings.editConnection.validations.duplicate : validationKey;
-        }
+        // check for duplicates and validate || after setting values (so properties display)
+        validationKey = (connectionStrings.indexOf(updatedConnectionString) >= 0  && updatedConnectionString !== connectionStringUnderEdit) ?
+        ResourceKeys.connectionStrings.editConnection.validations.duplicate :
+        validationKey;
 
         setConnectionStringValidationKey(validationKey);
     };

@@ -89,7 +89,7 @@ describe('connectionString', () => {
             expect (onDeleteConnectionString).toHaveBeenCalledWith(connectionString);
         });
 
-        fit('hides delete confirmation when ConnnectionStringDelete canceled', () => {
+        it('hides delete confirmation when ConnnectionStringDelete canceled', () => {
             const props: ConnectionStringProps = {
                 connectionString,
                 onDeleteConnectionString: jest.fn(),
