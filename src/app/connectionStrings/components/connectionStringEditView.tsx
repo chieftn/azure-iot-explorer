@@ -9,7 +9,6 @@ import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button'
 import { ConnectionStringProperties } from './connectionStringProperties';
 import { getConnectionInfoFromConnectionString } from '../../api/shared/utils';
 import { generateConnectionStringValidationError } from '../../shared/utils/hubConnectionStringHelper';
-import { getResourceNameFromHostName } from '../../api/shared/hostNameUtils';
 import { IoTHubConnectionSettings } from '../../api/services/devicesService';
 import { useLocalizationContext } from '../../shared/contexts/localizationContext';
 import { ResourceKeys } from '../../../localization/resourceKeys';
@@ -64,6 +63,18 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
         validationKey;
 
         setConnectionStringValidationKey(validationKey);
+    };
+
+    const showProperties = (): boolean => {
+        if (!connectionSettings) {
+            return false;
+        }
+
+        if (connectionStringValidationKey && connectionStringValidationKey !== ResourceKeys.connectionStrings.editConnection.validations.duplicate) {
+            return false;
+        }
+
+        return true;
     };
 
     const renderHeader = (): JSX.Element => {
@@ -125,7 +136,7 @@ export const ConnectionStringEditView: React.FC<ConnectionStringEditViewProps> =
                     required={true}
                     placeholder={t(ResourceKeys.connectionStrings.editConnection.editField.placeholder)}
                 />
-                {!connectionStringValidationKey && connectionSettings &&
+                {showProperties() &&
                     <div className="details">
                         <ConnectionStringProperties
                             connectionString={connectionString}

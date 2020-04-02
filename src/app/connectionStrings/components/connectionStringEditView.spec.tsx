@@ -12,6 +12,8 @@ import { ConnectionStringEditView, ConnectionStringEditViewProps } from './conne
 import configureStore from '../../../app/shared/redux/store/configureStore';
 
 describe('ConnectionStringEdit', () => {
+    const connectionString = 'HostName=test.azure-devices-int.net;SharedAccessKeyName=iothubowner;SharedAccessKey=key';
+
     it('matches snapshot in Add Scenario', () => {
         const props: ConnectionStringEditViewProps = {
             connectionStringUnderEdit: '',
@@ -36,10 +38,22 @@ describe('ConnectionStringEdit', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('matches snapshot in Edit / Duplicate scenario', () => {
+    it('matches snapshot in Edit / invalid scenario', () => {
         const props: ConnectionStringEditViewProps = {
             connectionStringUnderEdit: 'connectionString',
-            connectionStrings: ['connectionString'],
+            connectionStrings: [],
+            onCommit: jest.fn(),
+            onDismiss: jest.fn()
+        };
+
+        const wrapper = shallow(<ConnectionStringEditView {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('matches snapshot in Edit / valid scenario', () => {
+        const props: ConnectionStringEditViewProps = {
+            connectionStringUnderEdit: connectionString,
+            connectionStrings: [],
             onCommit: jest.fn(),
             onDismiss: jest.fn()
         };
@@ -66,13 +80,17 @@ describe('ConnectionStringEdit', () => {
     describe('edit scenario', () => {
         it('disables commit when validation fails', () => {
             const props: ConnectionStringEditViewProps = {
-                connectionStringUnderEdit: '',
+                connectionStringUnderEdit: connectionString,
                 connectionStrings: [],
                 onCommit: jest.fn(),
                 onDismiss: jest.fn()
             };
 
-            const wrapper = mount(<ConnectionStringEditView {...props}/>);
+            const wrapper = mount(
+                <Provider store={configureStore()}>
+                     <ConnectionStringEditView {...props}/>
+                </Provider>
+           );
             act(() => wrapper.find(TextField).props().onChange(undefined, 'badConnectionString'));
             wrapper.update();
 
@@ -81,7 +99,6 @@ describe('ConnectionStringEdit', () => {
         });
 
         it('disables commit when duplicate validation', () => {
-            const connectionString = 'HostName=test.azure-devices-int.net;SharedAccessKeyName=iothubowner;SharedAccessKey=key';
             const props: ConnectionStringEditViewProps = {
                 connectionStringUnderEdit: '',
                 connectionStrings: [connectionString],
@@ -102,7 +119,6 @@ describe('ConnectionStringEdit', () => {
         });
 
         it('calls onCommit when validation passes', () => {
-            const connectionString = 'HostName=test.azure-devices-int.net;SharedAccessKeyName=iothubowner;SharedAccessKey=key';
             const onCommit = jest.fn();
             const props: ConnectionStringEditViewProps = {
                 connectionStringUnderEdit: '',

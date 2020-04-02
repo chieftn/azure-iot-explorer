@@ -31,7 +31,7 @@ export const ConnectionStringProperties: React.FC<ConnectionStringPropertiesProp
             <MaskedCopyableTextFieldContainer
                 ariaLabel={t(ResourceKeys.connectionStrings.properties.sharedAccessPolicyName.ariaLabel, {connectionString})}
                 allowMask={false}
-                label={t(ResourceKeys.connectionStrings.properties.sharedAccessPolicyKey.label)}
+                label={t(ResourceKeys.connectionStrings.properties.sharedAccessPolicyName.label)}
                 value={sharedAccessKeyName}
                 readOnly={true}
             />
@@ -39,7 +39,7 @@ export const ConnectionStringProperties: React.FC<ConnectionStringPropertiesProp
             <MaskedCopyableTextFieldContainer
                 ariaLabel={t(ResourceKeys.connectionStrings.properties.sharedAccessPolicyKey.ariaLabel, {connectionString})}
                 allowMask={false}
-                label={t(ResourceKeys.connectionStrings.properties.sharedAccessPolicyName.label)}
+                label={t(ResourceKeys.connectionStrings.properties.sharedAccessPolicyKey.label)}
                 value={sharedAccessKey}
                 readOnly={true}
 

@@ -12,14 +12,14 @@ exports[`ConnectionSTringProperties matches snapshot 1`] = `
   <Connect(MaskedCopyableTextField)
     allowMask={false}
     ariaLabel="connectionStrings.properties.sharedAccessPolicyName.ariaLabel"
-    label="connectionStrings.properties.sharedAccessPolicyKey.label"
+    label="connectionStrings.properties.sharedAccessPolicyName.label"
     readOnly={true}
     value="sharedAccessKeyName"
   />
   <Connect(MaskedCopyableTextField)
     allowMask={false}
     ariaLabel="connectionStrings.properties.sharedAccessPolicyKey.ariaLabel"
-    label="connectionStrings.properties.sharedAccessPolicyName.label"
+    label="connectionStrings.properties.sharedAccessPolicyKey.label"
     readOnly={true}
     value="sharedAccessKey"
   />
